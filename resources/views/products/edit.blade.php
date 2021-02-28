@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', "Editar Product")
+@section('title', "Editar Producto")
 
 @section('main')
 <x-card header="Editar Producto">

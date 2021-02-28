@@ -11,7 +11,15 @@ class Price extends Model
 
     protected $guarded = [];
 
+    function getTotal() {
+        return $this->price * $this->pivot->quantity;
+    }
+
     function product() {
         return $this->belongsTo(Product::class);
+    }
+
+    function caravans() {
+        return $this->belongsToMany(Caravan::class)->withPivot("quantity")->withPivot("id")->withTimestamps();
     }
 }

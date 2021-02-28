@@ -8,7 +8,7 @@
     <thead>
       <tr>
         <td>#</td>
-        <td>Foto</td>
+        <td class="notexport">Foto</td>
         <td>Nombre</td>
         <td>Apellido</td>
         <td>Email</td>
@@ -21,8 +21,8 @@
       @foreach ($clients as $client)
       <tr>
         <td>{{ $client->id }}</td>
-        <td>
-          <a href="{{ asset($client->picture) }}" target="_blank">
+        <td class="notexport">
+          <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $client->id }}">
             <img width="50" height="50" style="border-radius: 50%; object-fit: cover"
               src="{{ asset($client->picture) }}" alt="{{ $client->first_name . ' ' . $client->last_name }}">
           </a>
@@ -32,7 +32,7 @@
         <td>{{ $client->email }}</td>
         <td>{{ $client->dni }}</td>
         <td>{{ $client->address }}</td>
-        <td>
+        <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
             <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
@@ -40,6 +40,7 @@
           </div>
         </td>
       </tr>
+      <x-photo :key="$client->id" :link="$client->picture" />
       <x-modal-action :key="$client->id" message="Esta seguro que desea borrar este cliente?">
         <form method="POST" action="{{ route('clients.destroy', $client->id) }}">
           @csrf

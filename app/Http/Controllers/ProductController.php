@@ -52,9 +52,9 @@ class ProductController extends Controller
             $validated["picture"] = $request->file("picture")->store("products");
         }
         
-        Product::create($validated);
+        $product = Product::create($validated);
 
-        return redirect()->route("products.index");
+        return redirect()->route("products.show", $product->id);
     }
 
     /**
