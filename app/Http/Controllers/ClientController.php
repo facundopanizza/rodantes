@@ -49,7 +49,7 @@ class ClientController extends Controller
         ]);
 
         if (array_key_exists("picture", $validated)) {
-            $validated["picture"] = $request->file("picture")->store("clients");
+            $validated["picture"] = "storage/" . $request->file("picture")->store("clients");
         }
 
         Client::create($validated);
@@ -99,7 +99,7 @@ class ClientController extends Controller
 
         if (array_key_exists("picture", $validated)) {
             Storage::delete($client->picture);
-            $client->picture = $request->file("picture")->store("clients");
+            $client->picture = "storage/" . $request->file("picture")->store("clients");
         }
 
         $client->first_name = $validated["first_name"];

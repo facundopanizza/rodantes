@@ -49,7 +49,7 @@ class ProductController extends Controller
         ]);
 
         if (array_key_exists("picture", $validated)) {
-            $validated["picture"] = $request->file("picture")->store("products");
+            $validated["picture"] = "storage/" . $request->file("picture")->store("products");
         }
         
         $product = Product::create($validated);
@@ -101,7 +101,7 @@ class ProductController extends Controller
 
         if (array_key_exists("picture", $validated)) {
             Storage::delete($product->picture);
-            $product->picture = $request->file("picture")->store("products");
+            $product->picture = "storage/" . $request->file("picture")->store("products");
         }
         
         $product->name = $validated["name"];
