@@ -198,6 +198,10 @@ class CaravanController extends Controller
         $price->stock += $validated["quantity"];
         $price->save();
 
+        if ($pivot->quantity === 0) {
+            $caravan->products()->detach($price->id);
+        }
+
         return redirect()->route("caravans.show", $caravan->id);
     }
 

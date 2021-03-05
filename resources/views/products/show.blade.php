@@ -8,17 +8,18 @@
     <div class="row g-0">
       <div class="col-md-4">
         <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $product->id }}">
-          <img class="img-fluid rounded" style="" src="{{ asset($product->picture) }}" alt="{{ $product->name }}">
+          <img class="img-fluid rounded" style="" src="{{ $product->picture ? asset($product->picture) : asset('img/placeholder.png') }}" alt="{{ $product->name }}">
         </a>
-        <x-photo :key="$product->id" :link="$product->picture" />
+        <x-photo :key="$product->id" :link="$product->picture ? $product->picture : 'img/placeholder.png'" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
           <p class="">Proveedor: <strong>{{ $product->supplier->name }}</strong></p>
           <p>{{ $product->description }}</p>
-          <a href="data:image/png;base64,{{ DNS1D::getBarcodePNG(strval($product->id ), 'C128A', 3, 33) }}"
+          <a href="data:image/png;base64,{{ DNS1D::getBarcodePNG(strval($product->id ), 'C128A', 3, 50, array(0, 0, 0), true) }}"
             download="producto-{{ $product->id }}.png" class="btn btn-success">Descargar
             código de barras</a>
+          <p class="mt-3">Codigo: {{ $product->id }}</p>
         </div>
       </div>
     </div>
@@ -37,8 +38,9 @@
     </thead>
     <tbody>
       @foreach ($product->prices as $price)
+      @if ($price->stock !== 0)
       <tr>
-        <td>{{ $price->price }}</td>
+        <td>@money($price->price)</td>
         <td>{{ $price->stock }}</td>
         <td>{{ $price->created_at }}</td>
         <td>
@@ -56,6 +58,7 @@
           <button type="submit" class="btn btn-outline-danger">Si, borrar</button>
         </form>
       </x-modal-action>
+      @endif
       @endforeach
     </tbody>
   </x-table>

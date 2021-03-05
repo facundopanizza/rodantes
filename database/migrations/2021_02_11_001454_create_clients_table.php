@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string("last_name");
             $table->string("email")->unique();
             $table->string("dni")->unique();
-            $table->string("picture");
+            $table->string("picture")->nullable();
             $table->text("address");
             $table->timestamps();
         });

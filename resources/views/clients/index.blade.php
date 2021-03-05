@@ -24,7 +24,7 @@
         <td class="notexport">
           <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $client->id }}">
             <img width="50" height="50" style="border-radius: 50%; object-fit: cover"
-              src="{{ asset($client->picture) }}" alt="{{ $client->first_name . ' ' . $client->last_name }}">
+              src="{{ asset($client->picture ? $client->picture : 'img/placeholder.png') }}" alt="{{ $client->first_name . ' ' . $client->last_name }}">
           </a>
         </td>
         <td>{{ $client->first_name }}</td>
@@ -40,7 +40,7 @@
           </div>
         </td>
       </tr>
-      <x-photo :key="$client->id" :link="$client->picture" />
+      <x-photo :key="$client->id" :link="$client->picture ? $client->picture : 'img/placeholder.png'" />
       <x-modal-action :key="$client->id" message="Esta seguro que desea borrar este cliente?">
         <form method="POST" action="{{ route('clients.destroy', $client->id) }}">
           @csrf

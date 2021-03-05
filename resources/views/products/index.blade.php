@@ -11,7 +11,8 @@
         <td>Nombre</td>
         <td>Descripción</td>
         <td>Proveedor</td>
-        <td>Precios/Stock</td>
+        <td>Precios</td>
+        <td>Stock</td>
         <td class="notexport"></td>
       </tr>
     </thead>
@@ -22,14 +23,8 @@
         <td>{{ $product->name }}</td>
         <td>{{ $product->description }}</td>
         <td>{{ $product->supplier->name }}</td>
-        <td>
-          @foreach ($product->prices as $price)
-          <div>
-            @money($price->price){{ "/" . $price->stock }}
-          </div>
-          @endforeach
-          {{ "Stock Total: " . $product->getStock() }}
-        </td>
+        <td>@money($product->prices->min("price"))-@money($product->prices->max("price"))</td>
+        <td>{{ $product->getStock() }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info">Ver</a>

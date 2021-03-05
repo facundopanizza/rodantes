@@ -23,18 +23,23 @@
         },
         {
           extend: "copy",
+          text: "Copiar",
           exportOptions: {
             columns: ':not(.notexport)'
           }
         }
       ],
       language: {
-        lengthMenu: "Mostrar _MENU_ items por pagina",
+        lengthMenu: "Mostrar _MENU_ resultados por pagina",
         zeroRecords: "No se encontraron resultados",
-        info: "Mostrando pagina _PAGE_ of _PAGES_",
+        info: "Mostrando pagina _PAGE_ de _PAGES_",
         infoEmpty: "No se encontraron resultados",
         infoFiltered: "(resultado filtrado de un total de _MAX_ resultados)",
-        search: "Buscar"
+        search: "Buscar",
+        paginate: {
+          next: "Siguiente",
+          previous: "Atras"
+        }
       },
     });
   })

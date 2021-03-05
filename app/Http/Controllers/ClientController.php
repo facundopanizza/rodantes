@@ -45,10 +45,12 @@ class ClientController extends Controller
             "email" => [ "required", "string", "email", "unique:clients,email" ],
             "dni" => [ "required", "string", "unique:clients,dni" ],
             "address" => [ "required", "string" ],
-            "picture" => [ "required", "image" ],
+            "picture" => [ "image" ],
         ]);
 
-        $validated["picture"] = $request->file("picture")->store("clients");
+        if (array_key_exists("picture", $validated)) {
+            $validated["picture"] = $request->file("picture")->store("clients");
+        }
 
         Client::create($validated);
 

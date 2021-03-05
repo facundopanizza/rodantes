@@ -42,6 +42,7 @@
       <tr>
         <td class="notexport">#</td>
         <td>Nombre</td>
+        <td>Fecha</td>
         <td>Cantidad</td>
         <td>Precio</td>
         <td>Total</td>
@@ -53,6 +54,7 @@
       <tr>
         <td class="notexport">{{ $product->pivot->id }}</td>
         <td>{{ $product->product->name }}</td>
+        <td class="notexport">{{ $product->pivot->created_at }}</td>
         <td>{{ $product->pivot->quantity }}</td>
         <td>@money($product->price)</td>
         <td>@money($product->getTotal())</td>
@@ -77,6 +79,7 @@
       @endforeach
       <tr>
         <td>Total</td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
