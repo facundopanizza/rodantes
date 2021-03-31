@@ -37,6 +37,7 @@
     <div class="mb-3">
       <label for="supplier" class="form-label">Proveedor</label>
       <select name="supplier_id" class="form-control">
+        <option>Sin Proveedor</option>
         @foreach ($suppliers as $supplier)
         <option value="{{ $supplier->id }}" @if ($supplier->id === $product->supplier_id) selected
           @endif>{{ $supplier->name }}</option>

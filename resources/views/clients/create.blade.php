@@ -43,6 +43,15 @@
     </div>
 
     <div class="mb-3">
+      <label for="phone" class="form-label">Teléfono</label>
+      <input required name="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
+        placeholder="41231452" value="{{ old('phone') }}">
+      @error("phone")
+      <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+    </div>
+
+    <div class="mb-3">
       <label for="address" class="form-label">Dirección</label>
       <textarea required name="address"
         class="form-control @error('address') is-invalid @enderror">{{ old('address') }}</textarea>
@@ -52,7 +61,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="picture" class="form-label">Foto</label>
+      <label for="picture" class="form-label">Foto (Opcional)</label>
       <input name="picture" type="file" class="form-control @error('picture') is-invalid @enderror"
         value="{{ old('picture') }}">
       @error("picture")

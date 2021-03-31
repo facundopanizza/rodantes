@@ -5,7 +5,9 @@ use App\Models\Caravan;
 use App\Models\Client;
 use App\Models\Price;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -43,8 +45,15 @@ class CaravanController extends Controller
     {
         $validated = $request->validate([ 
             "name" => [ "required", "string" ],
-            "plate" => [ "required", "string", "unique:caravans,plate" ]
+            "type" => [ "required", "string" ],
+            "model" => [ "required", "string" ],
+            "plate" => [ "required", "string", "unique:caravans,plate" ],
+            "picture" => [ "image" ]
         ]);
+
+        if (array_key_exists("picture", $validated)) {
+            $validated["picture"] = "storage/" . $request->file("picture")->store("caravans");
+        }
 
         Caravan::create($validated);
 
@@ -89,13 +98,26 @@ class CaravanController extends Controller
     {
         $validated = $request->validate([
             "name" => [ "required", "string" ],
-            "plate" => [ "required", "string" ],
-            "client_id" => [ "required", "exists:clients,id"]
+            "plate" => [ "required", "string", Rule::unique('caravans')->ignore($caravan->plate, 'plate') ],
+            "type" => [ "required", "string" ],
+            "model" => [ "required", "string" ],
+            "picture" => [ "image" ],
+            "client_id" => [ "exists:clients,id"]
         ]);
+
+        if (array_key_exists("picture", $validated)) {
+            Storage::delete(str_replace("storage/", "", $caravan->picture));
+            $caravan->picture = "storage/" . $request->file("picture")->store("caravans");
+        }
 
         $caravan->name = $validated["name"];
         $caravan->plate = $validated["plate"];
-        $caravan->client_id = $validated["client_id"];
+        $caravan->model = $validated["model"];
+        $caravan->type = $validated["type"];
+
+        if (array_key_exists("client_id", $validated)) {
+            $caravan->client_id = $validated["client_id"];
+        }
         $caravan->save();
 
         return redirect()->route("caravans.show", $caravan->id);

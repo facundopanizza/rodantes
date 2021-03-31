@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SupplierController extends Controller
 {
@@ -38,7 +39,9 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "name" => ["required", "unique:suppliers"]
+            "name" => ["required", "unique:suppliers"],
+            "phone" => ["required", "string"],
+            "address" => ["required", "string"]
         ]);
 
         Supplier::create($validated);
@@ -78,10 +81,14 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier)
     {
         $validated = $request->validate([
-            "name" => ["required", "unique:suppliers"]
+            "name" => [ "required", "string", Rule::unique('suppliers')->ignore($supplier->name, 'name') ],
+            "phone" => ["required", "string"],
+            "address" => ["required", "string"]
         ]);
 
         $supplier->name = $validated["name"];
+        $supplier->phone = $validated["phone"];
+        $supplier->address = $validated["address"];
         $supplier->save();
 
         return redirect()->route("suppliers.index");

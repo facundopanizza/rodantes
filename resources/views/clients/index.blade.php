@@ -13,8 +13,9 @@
         <td>Apellido</td>
         <td>Email</td>
         <td>DNI</td>
+        <td>Teléfono</td>
         <td>Dirección</td>
-        <td></td>
+        <td class="notexport"></td>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,7 @@
         <td>{{ $client->last_name }}</td>
         <td>{{ $client->email }}</td>
         <td>{{ $client->dni }}</td>
+        <td>{{ $client->phone }}</td>
         <td>{{ $client->address }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
@@ -50,6 +52,19 @@
       </x-modal-action>
       @endforeach
     </tbody>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th class="notexport">Foto</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>DNI</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+        <th class="notexport">Botones</th>
+      </tr>
+    </tfoot>
   </x-table>
 </x-card>
 @endsection

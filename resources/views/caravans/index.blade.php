@@ -10,6 +10,8 @@
         <td>#</td>
         <td>Nombre</td>
         <td>Patente</td>
+        <td>Tipo de Carrozado</td>
+        <td>Modelo de Carrozado</td>
         <td>Cliente</td>
         <td class="notexport"></td>
       </tr>
@@ -20,6 +22,8 @@
         <td>{{ $caravan->id }}</td>
         <td>{{ $caravan->name }}</td>
         <td>{{ $caravan->plate }}</td>
+        <td>{{ $caravan->type }}</td>
+        <td>{{ $caravan->model }}</td>
         <td>{{ $caravan->client ? $caravan->client->getFullName() : "" }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
@@ -39,6 +43,17 @@
       </x-modal-action>
       @endforeach
     </tbody>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Patente</th>
+        <th>Tipo de Carrozado</th>
+        <th>Modelo de Carrozado</th>
+        <th>Cliente</th>
+        <th class="notexport">Botones</th>
+      </tr>
+    </tfoot>
   </x-table>
 </x-card>
 @endsection

@@ -13,5 +13,8 @@
     "blade": {
       "parser": "plain"
     }
-  }
+  },
+  "cSpell.enableFiletypes": [
+    "php"
+  ]
 }

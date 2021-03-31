@@ -14,7 +14,9 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <p class="">Proveedor: <strong>{{ $product->supplier->name }}</strong></p>
+          @if($product->supplier)
+            <p class="">Proveedor: <strong>{{ $product->supplier->name }}</strong></p>
+          @endif
           <p>{{ $product->description }}</p>
           <a href="data:image/png;base64,{{ DNS1D::getBarcodePNG(strval($product->id ), 'C128A', 3, 50, array(0, 0, 0), true) }}"
             download="producto-{{ $product->id }}.png" class="btn btn-success">Descargar
@@ -26,14 +28,16 @@
   </div>
 
   <x-table>
+    <div class="my-3">
+      <a href="{{ route('prices.create', $product->id) }}" class="btn btn-sm btn-success">Agregar Precio</a>
+    </div>
     <thead>
       <tr>
         <td>Precio</td>
+        <td>Iva</td>
         <td>Stock</td>
         <td>Fecha</td>
-        <td>
-          <a href="{{ route('prices.create', $product->id) }}" class="btn btn-sm btn-success">Agregar Precio</a>
-        </td>
+        <td class="notexport"></td>
       </tr>
     </thead>
     <tbody>
@@ -41,6 +45,7 @@
       @if ($price->stock !== 0)
       <tr>
         <td>@money($price->price)</td>
+        <td>{{ $price->iva }}</td>
         <td>{{ $price->stock }}</td>
         <td>{{ $price->created_at }}</td>
         <td>
@@ -61,6 +66,15 @@
       @endif
       @endforeach
     </tbody>
+      <tfoot>
+        <tr>
+          <th>Precio</th>
+          <th>Iva</th>
+          <th>Stock</th>
+          <th>Fecha</th>
+          <th class="notexport">Botones</th>
+        </tr>
+      </tfoot>
   </x-table>
 </x-card>
 @endsection

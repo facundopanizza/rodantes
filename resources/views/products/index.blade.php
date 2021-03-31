@@ -22,7 +22,7 @@
         <td>{{ $product->id }}</td>
         <td>{{ $product->name }}</td>
         <td>{{ $product->description }}</td>
-        <td>{{ $product->supplier->name }}</td>
+        <td>{{ $product->supplier ? $product->supplier->name : "" }}</td>
         <td>@money($product->prices->min("price"))-@money($product->prices->max("price"))</td>
         <td>{{ $product->getStock() }}</td>
         <td class="notexport">
@@ -43,6 +43,17 @@
       </x-modal-action>
       @endforeach
     </tbody>
+    <tfoot>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Proveedor</th>
+        <th>Precios</th>
+        <th>Stock</th>
+        <th class="notexport">Botones</th>
+      </tr>
+    </tfoot>
   </x-table>
 </x-card>
 @endsection

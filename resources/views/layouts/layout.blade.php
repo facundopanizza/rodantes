@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ route('products.index') }}">Caravana Stock</a>
+                <a class="navbar-brand" href="{{ route('home') }}">Caravana Stock</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,9 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route("products.create") }}">Crear Producto</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route("home") }}">Productos con poco Stock</a>
                                 </li>
                             </ul>
                         </li>

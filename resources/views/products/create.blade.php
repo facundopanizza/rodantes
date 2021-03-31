@@ -4,7 +4,7 @@
 
 @section('main')
 <x-card header="Crear Producto">
-  <form method="POST" action="{{ route("products.store") }}" enctype="multipart/form-data">
+  <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
     @csrf
 
     <div class="mb-3">
@@ -36,6 +36,7 @@
     <div class="mb-3">
       <label for="supplier" class="form-label">Proveedor</label>
       <select name="supplier_id" class="form-control">
+        <option>Sin Proveedor</option>
         @foreach ($suppliers as $supplier)
         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
         @endforeach

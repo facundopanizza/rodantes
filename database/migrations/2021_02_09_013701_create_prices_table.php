@@ -16,6 +16,7 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
             $table->decimal("price");
+            $table->decimal("iva")->default(0);
             $table->smallInteger("stock")->nullable();
             $table->foreignId("product_id")->constrained();
             $table->timestamps();

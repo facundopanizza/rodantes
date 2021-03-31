@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    public function home()
+    {
+        $products = Product::all();
+
+        $products = $products->filter(function ($product) {
+            $notifyWhenStockIsEqualOrLessTo = 5;
+
+            if ($product->getStock() <= $notifyWhenStockIsEqualOrLessTo) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        return view("index", compact("products"));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -44,9 +61,12 @@ class ProductController extends Controller
         $validated = $request->validate([
             "name" => ["required", "string"],
             "description" => ["required", "string"],
-            "picture" => ["image"],
-            "supplier_id" => ["required", "exists:suppliers,id"]
+            "picture" => ["image"]
         ]);
+
+        if ($request->supplier_id && Supplier::find($request->supplier_id)) {
+            $validated["supplier_id"] = $request->supplier_id;
+        }
 
         if (array_key_exists("picture", $validated)) {
             $validated["picture"] = "storage/" . $request->file("picture")->store("products");
@@ -96,7 +116,7 @@ class ProductController extends Controller
             "name" => ["required", "string"],
             "description" => ["required", "string"],
             "picture" => ["image"],
-            "supplier_id" => ["required", "exists:suppliers,id"]
+            "supplier_id" => ["exists:suppliers,id"]
         ]);
 
         if (array_key_exists("picture", $validated)) {
@@ -106,7 +126,11 @@ class ProductController extends Controller
         
         $product->name = $validated["name"];
         $product->description = $validated["description"];
-        $product->supplier_id = $validated["supplier_id"];
+
+        if (array_key_exists("supplier_id", $validated)) {
+            $product->supplier_id = $validated["supplier_id"];
+        }
+
         $product->save();
 
         return redirect()->route("products.index");

@@ -12,7 +12,9 @@ class Price extends Model
     protected $guarded = [];
 
     function getTotal() {
-        return $this->price * $this->pivot->quantity;
+        $total = $this->price * $this->pivot->quantity;
+        $totalWithIva = $total + (($this->iva * $total) / 100);
+        return $totalWithIva;
     }
 
     function product() {

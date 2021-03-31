@@ -9,6 +9,8 @@
       <tr>
         <td>#</td>
         <td>Nombre</td>
+        <td>Teléfono</td>
+        <td>Dirección</td>
         <td class="notexport"></td>
       </tr>
     </thead>
@@ -17,6 +19,8 @@
       <tr>
         <td>{{ $supplier->id }}</td>
         <td>{{ $supplier->name }}</td>
+        <td>{{ $supplier->phone }}</td>
+        <td>{{ $supplier->address }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
@@ -27,6 +31,15 @@
       </tr>
       @endforeach
     </tbody>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+        <th class="notexport">Botones</th>
+      </tr>
+    </tfoot>
   </x-table>
 </x-card>
 @endsection

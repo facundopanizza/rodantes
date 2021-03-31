@@ -4,11 +4,34 @@
 
 @section('main')
 <x-card :header="$caravan->name">
-  <div class="my-4 d-flex justify-content-center">
-    <p class="mx-4">Patente: <strong>{{ $caravan->plate }}</strong></p>
-    @if($caravan->client)
-    <p>Cliente: <strong>{{ $caravan->client->getFullName() }}</strong></p>
-    @endif
+  <div class="row g-0 mb-4">
+    <div class="col-md-4">
+      <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $caravan->id }}">
+        <img class="img-fluid rounded" style="" src="{{ $caravan->picture ? asset($caravan->picture) : asset('img/placeholder.png') }}" alt="{{ $caravan->name }}">
+      </a>
+      <x-photo :key="$caravan->id" :link="$caravan->picture ? $caravan->picture : 'img/placeholder.png'" />
+    </div>
+    <div class="row col-md-8">
+      @if($caravan->client)
+        <div class="col-md-3">
+          <p>Cliente: <strong>{{ $caravan->client->getFullName() }}</strong></p>
+        </div>
+      @endif
+      <div class="col-md-3">
+        <p>Vehículo: <strong>{{ $caravan->name }}</strong></p>
+      </div>
+      <div class="col-md-3">
+        <p>Tipo de Carrozado: <strong>{{ $caravan->type }}</strong></p>
+      </div>
+      <div class="col-md-3">
+        <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
+      </div>
+      @if($caravan->plate)
+        <div class="col-md-3">
+          <p>Patente: <strong>{{ $caravan->plate }}</strong></p>
+        </div>
+      @endif
+    </div>
   </div>
 
   <div class="mb-3">
@@ -45,7 +68,8 @@
         <td>Fecha</td>
         <td>Cantidad</td>
         <td>Precio</td>
-        <td>Total</td>
+        <td>IVA</td>
+        <td>Total (Con IVA)</td>
         <td class="notexport"></td>
       </tr>
     </thead>
@@ -54,9 +78,10 @@
       <tr>
         <td class="notexport">{{ $product->pivot->id }}</td>
         <td>{{ $product->product->name }}</td>
-        <td class="notexport">{{ $product->pivot->created_at }}</td>
+        <td class="notexport">{{ $product->pivot->updated_at }}</td>
         <td>{{ $product->pivot->quantity }}</td>
         <td>@money($product->price)</td>
+        <td>{{ $product->iva }}%</td>
         <td>@money($product->getTotal())</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
@@ -83,10 +108,23 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
         <td>@money($caravan->getTotal())</td>
         <td class="notexport"></td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <th class="notexport">#</th>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>IVA</th>
+        <th>Total</th>
+        <th class="notexport">Botones</th>
+      </tr>
+    </tfoot>
   </x-table>
 </x-card>
 @endsection

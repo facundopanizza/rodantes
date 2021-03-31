@@ -45,6 +45,7 @@ class ClientController extends Controller
             "email" => [ "required", "string", "email", "unique:clients,email" ],
             "dni" => [ "required", "string", "unique:clients,dni" ],
             "address" => [ "required", "string" ],
+            "phone" => [ "required", "string" ],
             "picture" => [ "image" ],
         ]);
 
@@ -93,12 +94,13 @@ class ClientController extends Controller
             "last_name" => [ "required", "string" ],
             "email" => [ "required", "string", "email", Rule::unique('clients')->ignore($client->email, 'email') ],
             "dni" => [ "required", "string", Rule::unique('clients')->ignore($client->dni, 'dni') ],
+            "phone" => [ "required", "string" ],
             "address" => [ "required", "string" ],
             "picture" => [ "image" ],
         ]);
 
         if (array_key_exists("picture", $validated)) {
-            Storage::delete($client->picture);
+            Storage::delete(str_replace("storage/", "", $client->picture));
             $client->picture = "storage/" . $request->file("picture")->store("clients");
         }
 
@@ -106,6 +108,7 @@ class ClientController extends Controller
         $client->last_name = $validated["last_name"];
         $client->email = $validated["email"];
         $client->dni = $validated["dni"];
+        $client->phone = $validated["phone"];
         $client->address = $validated["address"];
         $client->save();
 

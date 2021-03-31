@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string("name");
             $table->text("description");
             $table->string("picture")->nullable();
-            $table->foreignId("supplier_id")->constrained();
+            $table->foreignId("supplier_id")->nullable();
             $table->timestamps();
         });
     }
