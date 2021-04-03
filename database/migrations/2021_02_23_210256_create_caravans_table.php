@@ -15,11 +15,9 @@ class CreateCaravansTable extends Migration
     {
         Schema::create('caravans', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
             $table->string("type");
             $table->string("model");
             $table->string("picture")->nullable();
-            $table->string("plate")->unique()->nullable();
             $table->foreignId("client_id")->nullable()->constrained();
             $table->timestamps();
         });

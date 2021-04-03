@@ -1,13 +1,13 @@
 @extends('layouts.layout')
 
-@section('title', 'Caravana - ' . $caravan->name)
+@section('title', 'Caravana - ' . $caravan->model)
 
 @section('main')
-<x-card :header="$caravan->name">
+<x-card :header="$caravan->model">
   <div class="row g-0 mb-4">
     <div class="col-md-4">
       <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $caravan->id }}">
-        <img class="img-fluid rounded" style="" src="{{ $caravan->picture ? asset($caravan->picture) : asset('img/placeholder.png') }}" alt="{{ $caravan->name }}">
+        <img class="img-fluid rounded" style="" src="{{ $caravan->picture ? asset($caravan->picture) : asset('img/placeholder.png') }}" alt="{{ $caravan->model }}">
       </a>
       <x-photo :key="$caravan->id" :link="$caravan->picture ? $caravan->picture : 'img/placeholder.png'" />
     </div>
@@ -18,19 +18,11 @@
         </div>
       @endif
       <div class="col-md-3">
-        <p>Vehículo: <strong>{{ $caravan->name }}</strong></p>
-      </div>
-      <div class="col-md-3">
         <p>Tipo de Carrozado: <strong>{{ $caravan->type }}</strong></p>
       </div>
       <div class="col-md-3">
         <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
       </div>
-      @if($caravan->plate)
-        <div class="col-md-3">
-          <p>Patente: <strong>{{ $caravan->plate }}</strong></p>
-        </div>
-      @endif
     </div>
   </div>
 

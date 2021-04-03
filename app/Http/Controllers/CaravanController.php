@@ -32,7 +32,9 @@ class CaravanController extends Controller
      */
     public function create()
     {
-        return view("caravans.create");
+        $clients = Client::all();
+
+        return view("caravans.create", compact("clients"));
     }
 
     /**
@@ -44,12 +46,18 @@ class CaravanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([ 
-            "name" => [ "required", "string" ],
             "type" => [ "required", "string" ],
             "model" => [ "required", "string" ],
-            "plate" => [ "required", "string", "unique:caravans,plate" ],
             "picture" => [ "image" ]
         ]);
+
+        $client = Client::find($request->client_id);
+
+        if (!$client) {
+            $validated["client_id"] = null;
+        } else {
+            $validated["client_id"] = $client->id;
+        }
 
         if (array_key_exists("picture", $validated)) {
             $validated["picture"] = "storage/" . $request->file("picture")->store("caravans");
@@ -97,27 +105,28 @@ class CaravanController extends Controller
     public function update(Request $request, Caravan $caravan)
     {
         $validated = $request->validate([
-            "name" => [ "required", "string" ],
-            "plate" => [ "required", "string", Rule::unique('caravans')->ignore($caravan->plate, 'plate') ],
             "type" => [ "required", "string" ],
             "model" => [ "required", "string" ],
             "picture" => [ "image" ],
-            "client_id" => [ "exists:clients,id"]
         ]);
+
+        $client = Client::find($request->client_id);
+
+        if (!$client) {
+            $validated["client_id"] = null;
+        } else {
+            $validated["client_id"] = $client->id;
+        }
 
         if (array_key_exists("picture", $validated)) {
             Storage::delete(str_replace("storage/", "", $caravan->picture));
             $caravan->picture = "storage/" . $request->file("picture")->store("caravans");
         }
 
-        $caravan->name = $validated["name"];
-        $caravan->plate = $validated["plate"];
         $caravan->model = $validated["model"];
         $caravan->type = $validated["type"];
+        $caravan->client_id = $validated["client_id"];
 
-        if (array_key_exists("client_id", $validated)) {
-            $caravan->client_id = $validated["client_id"];
-        }
         $caravan->save();
 
         return redirect()->route("caravans.show", $caravan->id);
@@ -239,7 +248,7 @@ class CaravanController extends Controller
                                     ->get();
 
         if ($products->isEmpty()) {
-            return back()->withErrors([ "term" => "No se encontro un producto con este termino de busqueda." ])->withInput();
+            return back()->withErrors([ "term" => "No se encontró un producto con este termino de búsqueda." ])->withInput();
         }
 
         return view("caravans.results", [

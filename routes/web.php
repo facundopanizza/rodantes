@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ProductController::class, 'home'])->name("home");
+Route::get('/', [ProductController::class, 'index'])->name("home");
 
 Route::resource("suppliers", SupplierController::class);
 Route::resource("products", ProductController::class);

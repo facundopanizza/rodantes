@@ -8,8 +8,6 @@
     <thead>
       <tr>
         <td>#</td>
-        <td>Nombre</td>
-        <td>Patente</td>
         <td>Tipo de Carrozado</td>
         <td>Modelo de Carrozado</td>
         <td>Cliente</td>
@@ -20,8 +18,6 @@
       @foreach ($caravans as $caravan)
       <tr>
         <td>{{ $caravan->id }}</td>
-        <td>{{ $caravan->name }}</td>
-        <td>{{ $caravan->plate }}</td>
         <td>{{ $caravan->type }}</td>
         <td>{{ $caravan->model }}</td>
         <td>{{ $caravan->client ? $caravan->client->getFullName() : "" }}</td>
@@ -46,8 +42,6 @@
     <tfoot>
       <tr>
         <th>#</th>
-        <th>Nombre</th>
-        <th>Patente</th>
         <th>Tipo de Carrozado</th>
         <th>Modelo de Carrozado</th>
         <th>Cliente</th>

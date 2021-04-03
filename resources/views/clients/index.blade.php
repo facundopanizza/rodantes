@@ -7,7 +7,6 @@
   <x-table>
     <thead>
       <tr>
-        <td>#</td>
         <td class="notexport">Foto</td>
         <td>Nombre</td>
         <td>Apellido</td>
@@ -15,13 +14,13 @@
         <td>DNI</td>
         <td>Teléfono</td>
         <td>Dirección</td>
+        <td>#</td>
         <td class="notexport"></td>
       </tr>
     </thead>
     <tbody>
       @foreach ($clients as $client)
       <tr>
-        <td>{{ $client->id }}</td>
         <td class="notexport">
           <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $client->id }}">
             <img width="50" height="50" style="border-radius: 50%; object-fit: cover"
@@ -34,6 +33,7 @@
         <td>{{ $client->dni }}</td>
         <td>{{ $client->phone }}</td>
         <td>{{ $client->address }}</td>
+        <td>{{ $client->id }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
@@ -54,7 +54,6 @@
     </tbody>
     <tfoot>
       <tr>
-        <th>#</th>
         <th class="notexport">Foto</th>
         <th>Nombre</th>
         <th>Apellido</th>
@@ -62,6 +61,7 @@
         <th>DNI</th>
         <th>Teléfono</th>
         <th>Dirección</th>
+        <th>#</th>
         <th class="notexport">Botones</th>
       </tr>
     </tfoot>

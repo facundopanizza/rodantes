@@ -88,7 +88,7 @@
         </nav>
     </header>
 
-    <div class="container">@yield('main')</div>
+    <div class="container my-4">@yield('main')</div>
 
     <footer class="mt-auto bg-dark text-white text-center text-lg-start">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
