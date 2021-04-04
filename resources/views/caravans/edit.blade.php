@@ -9,6 +9,15 @@
     @method("patch")
 
     <div class="mb-3">
+      <label for="vehicle" class="form-label">Vehículo</label>
+      <input required name="vehicle" type="text" class="form-control @error('vehicle') is-invalid @enderror"
+        placeholder="Vehículo" value="{{  old('vehicle') ? old('vehicle') : $caravan->vehicle }}">
+      @error("vehicle")
+      <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+    </div>
+
+    <div class="mb-3">
       <label for="type" class="form-label">Tipo de Carrozado</label>
       <input required name="type" type="text" class="form-control @error('type') is-invalid @enderror"
         placeholder="Tipo de Carrozado" value="{{  old('type') ? old('type') : $caravan->type }}">

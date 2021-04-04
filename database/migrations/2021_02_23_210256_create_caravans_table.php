@@ -15,6 +15,7 @@ class CreateCaravansTable extends Migration
     {
         Schema::create('caravans', function (Blueprint $table) {
             $table->id();
+            $table->string("vehicle");
             $table->string("type");
             $table->string("model");
             $table->string("picture")->nullable();

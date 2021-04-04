@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Caravan;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -60,7 +61,6 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             "name" => ["required", "string"],
-            "description" => ["required", "string"],
             "picture" => ["image"]
         ]);
 
@@ -114,10 +114,12 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             "name" => ["required", "string"],
-            "description" => ["required", "string"],
             "picture" => ["image"],
-            "supplier_id" => ["exists:suppliers,id"]
         ]);
+
+        if ($request->supplier_id && Supplier::find($request->supplier_id)) {
+            $validated["supplier_id"] = $request->supplier_id;
+        }
 
         if (array_key_exists("picture", $validated)) {
             Storage::delete($product->picture);
@@ -125,7 +127,7 @@ class ProductController extends Controller
         }
         
         $product->name = $validated["name"];
-        $product->description = $validated["description"];
+        $product->description = $request->description;
 
         if (array_key_exists("supplier_id", $validated)) {
             $product->supplier_id = $validated["supplier_id"];
@@ -148,5 +150,15 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route("products.index");
+    }
+
+    public function addToCaravan(Product $product)
+    {
+        $caravans = Caravan::with("client")->get();
+
+        return view("products.addToCaravan", [
+            "caravans" => $caravans,
+            "product" => $product
+        ]);
     }
 }

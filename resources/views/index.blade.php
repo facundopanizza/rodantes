@@ -9,9 +9,9 @@
         <tr>
           <td>Código</td>
           <td>Nombre</td>
-          <td>Stock</td>
           <td>Descripción</td>
           <td>Proveedor</td>
+          <td>Stock</td>
           <td>Precios</td>
           <td class="notexport"></td>
         </tr>
@@ -21,9 +21,9 @@
         <tr>
           <td>{{ $product->id }}</td>
           <td>{{ $product->name }}</td>
-          <td>{{ $product->getStock() }}</td>
           <td>{{ $product->description }}</td>
           <td>{{ $product->supplier ? $product->supplier->name : "" }}</td>
+          <td>{{ $product->getStock() }}</td>
           <td>@money($product->prices->min("price"))-@money($product->prices->max("price"))</td>
           <td class="notexport">
             <div class="d-flex flex-nowrap justify-content-between">

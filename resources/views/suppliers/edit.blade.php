@@ -17,7 +17,7 @@
     </div>
     <div class="mb-3">
       <label for="phone" class="form-label">Teléfono</label>
-      <input required name="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
+      <input required name="phone" type="number" class="form-control @error('phone') is-invalid @enderror"
         placeholder="113457345" value="{{ old('phone') ? old('phone') : $supplier->phone }}">
       @error("phone")
       <div class="invalid-feedback">{{ $message }}</div>

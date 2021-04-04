@@ -4,10 +4,15 @@
 
 @section('main')
 <x-card header="Productos">
+  @error('quantity')
+  <div class="mb-3">
+    <h2 class="text-danger">{{ $message }}</h2>
+  </div>
+  @enderror
+
   <x-table>
     <thead>
       <tr>
-        <td>#</td>
         <td>Nombre</td>
         <td>Descripción</td>
         <td>Proveedor</td>
@@ -17,10 +22,9 @@
     <tbody>
       @foreach ($products as $product)
       <tr>
-        <td>{{ $product->id }}</td>
         <td>{{ $product->name }}</td>
         <td>{{ $product->description }}</td>
-        <td>{{ $product->supplier->name }}</td>
+        <td>{{ $product->supplier ? $product->supplier->name : "" }}</td>
         <td>
           <div class="d-flex">
             <form action="{{ route('caravans.add_product', $caravan->id) }}" method="POST">

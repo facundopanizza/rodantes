@@ -3,7 +3,7 @@
 @section('title', 'Caravana - ' . $caravan->model)
 
 @section('main')
-<x-card :header="$caravan->model">
+<x-card :header="$caravan->vehicle">
   <div class="row g-0 mb-4">
     <div class="col-md-4">
       <a class="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#photo{{ $caravan->id }}">
@@ -11,16 +11,19 @@
       </a>
       <x-photo :key="$caravan->id" :link="$caravan->picture ? $caravan->picture : 'img/placeholder.png'" />
     </div>
-    <div class="row col-md-8">
+    <div class="col-md-8 px-4">
+      <div>
+        <p>Vehículo: <strong>vehicle</strong></p>
+      </div>
       @if($caravan->client)
-        <div class="col-md-3">
+        <div>
           <p>Cliente: <strong>{{ $caravan->client->getFullName() }}</strong></p>
         </div>
       @endif
-      <div class="col-md-3">
+      <div>
         <p>Tipo de Carrozado: <strong>{{ $caravan->type }}</strong></p>
       </div>
-      <div class="col-md-3">
+      <div>
         <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
       </div>
     </div>
@@ -55,7 +58,6 @@
   <x-table>
     <thead>
       <tr>
-        <td class="notexport">#</td>
         <td>Nombre</td>
         <td>Fecha</td>
         <td>Cantidad</td>
@@ -68,7 +70,6 @@
     <tbody>
       @foreach ($caravan->products as $product)
       <tr>
-        <td class="notexport">{{ $product->pivot->id }}</td>
         <td>{{ $product->product->name }}</td>
         <td class="notexport">{{ $product->pivot->updated_at }}</td>
         <td>{{ $product->pivot->quantity }}</td>
@@ -78,11 +79,9 @@
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('caravans.add_product_form', [ $caravan, $product ]) }}"
-              class="btn btn-sm btn-success">Agregar</a>
+              class="btn btn-sm btn-success mx-1">Agregar</a>
             <a href="{{ route('caravans.sub_product_form', [ $caravan, $product ]) }}"
-              class="btn btn-sm btn-outline-success">Quitar</a>
-            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-              data-bs-target="#confirmDelete{{ $caravan->id }}">Borrar</button>
+              class="btn btn-sm btn-outline-danger">Quitar</a>
           </div>
         </td>
       </tr>
@@ -100,14 +99,12 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
         <td>@money($caravan->getTotal())</td>
         <td class="notexport"></td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th class="notexport">#</th>
         <th>Nombre</th>
         <th>Fecha</th>
         <th>Cantidad</th>

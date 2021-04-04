@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ProductController::class, 'index'])->name("home");
 
+Route::get("/products/stock", [ProductController::class, 'home'])->name("stock");
+
+Route::get("/products/{product}/addToCaravan", [ProductController::class, 'addToCaravan'])->name("products.addToCaravan");
+Route::post("/products/{product}/addToCaravan", [CaravanController::class, "addProduct"])->name("products.storeToCaravan");
+
 Route::resource("suppliers", SupplierController::class);
 Route::resource("products", ProductController::class);
 Route::resource("clients", ClientController::class);

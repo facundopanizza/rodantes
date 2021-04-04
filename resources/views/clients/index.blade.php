@@ -8,13 +8,11 @@
     <thead>
       <tr>
         <td class="notexport">Foto</td>
-        <td>Nombre</td>
-        <td>Apellido</td>
+        <td>Cliente</td>
         <td>Email</td>
         <td>DNI</td>
         <td>Teléfono</td>
         <td>Dirección</td>
-        <td>#</td>
         <td class="notexport"></td>
       </tr>
     </thead>
@@ -27,13 +25,11 @@
               src="{{ asset($client->picture ? $client->picture : 'img/placeholder.png') }}" alt="{{ $client->first_name . ' ' . $client->last_name }}">
           </a>
         </td>
-        <td>{{ $client->first_name }}</td>
-        <td>{{ $client->last_name }}</td>
+        <td>{{ $client->getFullName() }}</td>
         <td>{{ $client->email }}</td>
         <td>{{ $client->dni }}</td>
         <td>{{ $client->phone }}</td>
         <td>{{ $client->address }}</td>
-        <td>{{ $client->id }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
@@ -55,13 +51,11 @@
     <tfoot>
       <tr>
         <th class="notexport">Foto</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
+        <th>Cliente</th>
         <th>Email</th>
         <th>DNI</th>
         <th>Teléfono</th>
         <th>Dirección</th>
-        <th>#</th>
         <th class="notexport">Botones</th>
       </tr>
     </tfoot>

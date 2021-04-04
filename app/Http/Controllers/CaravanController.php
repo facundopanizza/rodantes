@@ -46,6 +46,7 @@ class CaravanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([ 
+            "vehicle" => [ "required", "string" ],
             "type" => [ "required", "string" ],
             "model" => [ "required", "string" ],
             "picture" => [ "image" ]
@@ -105,6 +106,7 @@ class CaravanController extends Controller
     public function update(Request $request, Caravan $caravan)
     {
         $validated = $request->validate([
+            "vehicle" => [ "required", "string" ],
             "type" => [ "required", "string" ],
             "model" => [ "required", "string" ],
             "picture" => [ "image" ],
@@ -123,6 +125,7 @@ class CaravanController extends Controller
             $caravan->picture = "storage/" . $request->file("picture")->store("caravans");
         }
 
+        $caravan->vehicle = $validated["vehicle"];
         $caravan->model = $validated["model"];
         $caravan->type = $validated["type"];
         $caravan->client_id = $validated["client_id"];
@@ -183,6 +186,14 @@ class CaravanController extends Controller
             "term" => [ "required" ],
             "quantity" => [ "required", "min:1" ]
         ]);
+
+        if (!$caravan->exists) {
+            $caravan = Caravan::find($request->caravan_id);
+
+            if (!$caravan) {
+                return back()->withErrors([ "caravan_id" => "Esta caravana no existe." ])->withInput();
+            }
+        }
 
         $product = Product::find($validated["term"]);
 

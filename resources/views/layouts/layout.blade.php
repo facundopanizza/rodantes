@@ -50,7 +50,7 @@
                                     <a class="dropdown-item" href="{{ route("products.create") }}">Crear Producto</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route("home") }}">Productos con poco Stock</a>
+                                    <a class="dropdown-item" href="{{ route("stock") }}">Productos con poco Stock</a>
                                 </li>
                             </ul>
                         </li>
