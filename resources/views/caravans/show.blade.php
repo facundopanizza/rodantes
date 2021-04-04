@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-8 px-4">
       <div>
-        <p>Vehículo: <strong>vehicle</strong></p>
+        <p>Vehículo: <strong>{{ $caravan->vehicle }}</strong></p>
       </div>
       @if($caravan->client)
         <div>
@@ -25,6 +25,10 @@
       </div>
       <div>
         <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
+      </div>
+      <div>
+        <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
+        <p>Gasto Total: @money($product->getTotal())</p>
       </div>
     </div>
   </div>
@@ -58,7 +62,7 @@
   <x-table>
     <thead>
       <tr>
-        <td>Nombre</td>
+        <td>Producto</td>
         <td>Fecha</td>
         <td>Cantidad</td>
         <td>Precio</td>
@@ -105,7 +109,7 @@
     </tbody>
     <tfoot>
       <tr>
-        <th>Nombre</th>
+        <th>Producto</th>
         <th>Fecha</th>
         <th>Cantidad</th>
         <th>Precio</th>
