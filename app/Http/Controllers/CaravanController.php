@@ -143,9 +143,16 @@ class CaravanController extends Controller
      */
     public function destroy(Caravan $caravan)
     {
-        $caravan->delete();
+        try {
+            $caravan->delete();
 
-        return redirect()->route("caravans.index");
+            return redirect()->route("caravans.index");
+        } catch (\Throwable $th) {
+            if ($th->getCode() === "23000") {
+                return redirect()->back()->withErrors([ "constrained" => "La caravana no puede ser borrada porque tiene asignado uno o varios productos." ]);
+            }
+            throw $th;
+        }
     }
 
     public function addProductForm(Caravan $caravan, Price $price)

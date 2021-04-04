@@ -27,6 +27,12 @@
     </div>
   </div>
 
+  @error('constrained')
+  <div class="mb-3">
+    <h2 class="text-danger">{{ $message }}</h2>
+  </div>
+  @enderror
+
   <x-table>
     <div class="my-3">
       <a href="{{ route('prices.create', $product->id) }}" class="btn btn-sm btn-success">Agregar Precio</a>

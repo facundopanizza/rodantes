@@ -13,7 +13,9 @@
       <label for="caravan_id" class="form-label">Caravana</label>
       <select class="form-control" name="caravan_id">
         @foreach ($caravans as $caravan)
-          <option value="{{ $caravan->id }}">{{ $caravan->vehicle }} / {{ $caravan->client->getFullName() }}</option>
+          @if($caravan->client)
+            <option value="{{ $caravan->id }}">{{ $caravan->vehicle }} / {{ $caravan->client->getFullName() }}</option>
+          @endif
         @endforeach
       </select>
       @error("caravan_id")

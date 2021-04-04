@@ -146,10 +146,17 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        Storage::delete($product->picture);
-        $product->delete();
+        try {
+            $product->delete();
+            Storage::delete($product->picture);
 
-        return redirect()->route("products.index");
+            return redirect()->route("products.index");
+        } catch (\Throwable $th) {
+            if ($th->getCode() === "23000") {
+                return redirect()->back()->withErrors([ "constrained" => "El producto no puede ser borrado porque tiene asignado uno o varios precios." ]);
+            }
+            throw $th;
+        }
     }
 
     public function addToCaravan(Product $product)

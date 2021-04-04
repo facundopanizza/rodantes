@@ -4,6 +4,12 @@
 
 @section('main')
 <x-card header="Caravanas">
+  @error('constrained')
+  <div class="mb-3">
+    <h2 class="text-danger">{{ $message }}</h2>
+  </div>
+  @enderror
+
   <x-table>
     <thead>
       <tr>

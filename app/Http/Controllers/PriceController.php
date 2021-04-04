@@ -101,9 +101,16 @@ class PriceController extends Controller
      */
     public function destroy(Price $price)
     {
-        $product_id = $price->product->id;
-        $price->delete();
+        try {
+            $product_id = $price->product->id;
+            $price->delete();
 
-        return redirect()->route("products.show", $product_id);
+            return redirect()->route("products.show", $product_id);
+        } catch (\Throwable $th) {
+            if ($th->getCode() === "23000") {
+                return redirect()->back()->withErrors([ "constrained" => "El precio no puede ser borrado porque esta asignado a una o varias caravanas." ]);
+            }
+            throw $th;
+        }
     }
 }

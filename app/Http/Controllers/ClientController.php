@@ -123,9 +123,16 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        Storage::delete($client->picture);
-        $client->delete();
+        try {
+            Storage::delete($client->picture);
+            $client->delete();
 
-        return redirect()->route("clients.index");
+            return redirect()->route("clients.index");
+        } catch (\Throwable $th) {
+            if ($th->getCode() === "23000") {
+                return redirect()->back()->withErrors([ "constrained" => "El cliente no puede ser borrado porque tiene asignado una o varias caravanas." ]);
+            }
+            throw $th;
+        }
     }
 }
