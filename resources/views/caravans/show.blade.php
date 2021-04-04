@@ -28,7 +28,7 @@
       </div>
       <div>
         <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
-        <p>Gasto Total: @money($product->getTotal())</p>
+        <p>Gasto Total: @money($caravan->getTotal())</p>
       </div>
     </div>
   </div>
