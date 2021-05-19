@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -16,6 +17,10 @@ class ClientController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role !== "admin") {
+            return View("403");
+        }
+
         $clients = Client::all();
 
         return view("clients.index", compact("clients"));
@@ -28,6 +33,10 @@ class ClientController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->role !== "admin") {
+            return View("403");
+        }
+
         return view("clients.create");
     }
 
@@ -39,6 +48,10 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role !== "admin") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "first_name" => [ "required", "string" ],
             "last_name" => [ "required", "string" ],
@@ -77,6 +90,10 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
+        if (Auth::user()->role !== "admin") {
+            return View("403");
+        }
+
         return view("clients.edit", compact("client"));
     }
 
@@ -89,6 +106,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
+        if (Auth::user()->role !== "admin") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "first_name" => [ "required", "string" ],
             "last_name" => [ "required", "string" ],
@@ -123,6 +144,10 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
+        if (Auth::user()->role !== "admin") {
+            return View("403");
+        }
+
         try {
             Storage::delete($client->picture);
             $client->delete();

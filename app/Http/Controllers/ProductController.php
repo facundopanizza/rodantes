@@ -6,12 +6,17 @@ use App\Models\Caravan;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function home()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $products = Product::all();
 
         $products = $products->filter(function ($product) {
@@ -34,6 +39,10 @@ class ProductController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $products = Product::with("supplier")->get();
 
         return view("products.index", compact("products"));
@@ -46,6 +55,10 @@ class ProductController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $suppliers = Supplier::all();
 
         return view("products.create", compact('suppliers'));
@@ -59,6 +72,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "name" => ["required", "string"],
             "picture" => ["image"]
@@ -85,6 +102,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $product->load("prices");
 
         return view("products.show", [ "product" => $product ]);
@@ -98,6 +119,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $suppliers = Supplier::all();
 
         return view("products.edit", [ "suppliers" => $suppliers, "product" => $product ]);
@@ -112,6 +137,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "name" => ["required", "string"],
             "picture" => ["image"],
@@ -146,6 +175,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         try {
             $product->delete();
             Storage::delete($product->picture);
@@ -161,6 +194,10 @@ class ProductController extends Controller
 
     public function addToCaravan(Product $product)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
+            return View("403");
+        }
+
         $caravans = Caravan::with("client")->get();
 
         return view("products.addToCaravan", [

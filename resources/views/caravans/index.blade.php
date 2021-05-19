@@ -37,10 +37,14 @@
         <td>{{ $caravan->model }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
-            <a href="{{ route('caravans.show', $caravan->id) }}" class="btn btn-sm btn-info">Ver</a>
-            <a href="{{ route('caravans.edit', $caravan->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
-            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+            @if(Auth::user()->role === "admin" || Auth::user()->role === "employee")
+              <a href="{{ route('caravans.show', $caravan->id) }}" class="btn btn-sm btn-info">Ver</a>
+            @endif
+            @if(Auth::user()->role === "admin")
+              <a href="{{ route('caravans.edit', $caravan->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
+              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
               data-bs-target="#confirmDelete{{ $caravan->id }}">Borrar</button>
+            @endif
           </div>
         </td>
       </tr>

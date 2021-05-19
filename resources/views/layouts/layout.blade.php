@@ -23,51 +23,76 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Caravanas
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("caravans.index") }}">Ver Caravanas</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("caravans.create") }}">Crear Caravanas</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Productos
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("products.index") }}">Ver Productos</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("products.create") }}">Crear Producto</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("stock") }}">Productos con poco Stock</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Proveedores
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("suppliers.index") }}">Ver Proveedores</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route("suppliers.create") }}">Crear Proveedor</a>
-                                </li>
-                            </ul>
-                        </li>
+                        @if(Auth::user()->role === "admin" || Auth::user()->role === "employee")
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Caravanas
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("caravans.index") }}">Ver Caravanas</a>
+                                    </li>
+                                    @if(Auth::user()->role === "admin")
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route("caravans.create") }}">Crear Caravanas</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+                        @endif
+                        @if(Auth::user()->role === "admin" || Auth::user()->role === "employee" || Auth::user()->role === "moderator")
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Productos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("products.index") }}">Ver Productos</a>
+                                    </li>
+                                    @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route("products.create") }}">Crear Producto</a>
+                                        </li>
+                                    @endif
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("stock") }}">Productos con poco Stock</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(Auth::user()->role === "admin")
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Proveedores
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("suppliers.index") }}">Ver Proveedores</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("suppliers.create") }}">Crear Proveedor</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Usuarios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("users.index") }}">Ver Usuarios</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route("users.create") }}">Crear Usuario</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if(Auth::user()->role === "admin")
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,6 +107,16 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link class="nav-link" :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Cerrar sesión') }}
+                            </x-dropdown-link>
+                        </form>
                     </ul>
                 </div>
             </div>

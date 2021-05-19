@@ -35,7 +35,9 @@
 
   <x-table>
     <div class="my-3">
-      <a href="{{ route('prices.create', $product->id) }}" class="btn btn-sm btn-success">Agregar Precio</a>
+      @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
+        <a href="{{ route('prices.create', $product->id) }}" class="btn btn-sm btn-success">Agregar Precio</a>
+      @endif
     </div>
     <thead>
       <tr>
@@ -56,9 +58,11 @@
         <td>{{ $price->created_at }}</td>
         <td>
           <div class="d-flex flex-nowrap justify-content-between">
-            <a href="{{ route('prices.edit', $price->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
-            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-              data-bs-target="#confirmDelete{{ $price->id }}">Borrar</button>
+            @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
+              <a href="{{ route('prices.edit', $price->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
+              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                data-bs-target="#confirmDelete{{ $price->id }}">Borrar</button>
+            @endif
           </div>
         </td>
       </tr>

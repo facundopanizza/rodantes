@@ -33,11 +33,19 @@
         <td>@money($product->prices->min("price"))-@money($product->prices->max("price"))</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
-            <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info mx-1">Ver</a>
-            <a href="{{ route('products.addToCaravan', $product->id) }}" class="btn btn-sm text-nowrap btn-success">Agregar a Caravana</a>
-            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-outline-success mx-1">Editar</a>
-            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-              data-bs-target="#confirmDelete{{ $product->id }}">Borrar</button>
+            @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator" || Auth::user()->role === "employee")
+              <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info mx-1">Ver</a>
+            @endif
+
+            @if(Auth::user()->role === "admin" || Auth::user()->role === "employee")
+              <a href="{{ route('products.addToCaravan', $product->id) }}" class="btn btn-sm text-nowrap btn-success">Agregar a Caravana</a>
+            @endif
+
+            @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
+              <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-outline-success mx-1">Editar</a>
+              <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                data-bs-target="#confirmDelete{{ $product->id }}">Borrar</button>
+            @endif
           </div>
         </td>
       </tr>

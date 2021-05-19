@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Price;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PriceController extends Controller
 {
@@ -24,6 +25,10 @@ class PriceController extends Controller
      */
     public function create($product_id)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view("prices.create", compact("product_id"));
     }
 
@@ -35,6 +40,10 @@ class PriceController extends Controller
      */
     public function store(Request $request, $product_id)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "price" => [ "required", "min:0", "numeric"],
             "iva" => [ "min:0", "numeric"],
@@ -67,6 +76,10 @@ class PriceController extends Controller
      */
     public function edit(Price $price)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view("prices.edit", [ "price" => $price, "product_id" => $price->product->id]);
     }
 
@@ -79,6 +92,10 @@ class PriceController extends Controller
      */
     public function update(Request $request, Price $price)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "price" => [ "required", "min:0", "numeric"],
             "iva" => [ "min:0", "numeric"],
@@ -101,6 +118,10 @@ class PriceController extends Controller
      */
     public function destroy(Price $price)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         try {
             $product_id = $price->product->id;
             $price->delete();
