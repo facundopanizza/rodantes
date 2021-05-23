@@ -16,7 +16,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -32,7 +32,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -47,7 +47,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -81,7 +81,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -97,7 +97,7 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -123,7 +123,7 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 

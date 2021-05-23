@@ -54,12 +54,15 @@ Route::middleware(["auth"])->group(function () {
     Route::post("/users", [UserController::class, "store"])->name("users.store");
 });
 
+Route::get("/admins", function () {
+    return View("auth.loginAdmin");
+})->name("admins.login");
 Route::get("/users", [UserController::class, "index"])->name("users.index");
 Route::get("/users/{user}/edit", [UserController::class, "edit"])->name("users.edit");
 Route::patch("/users/{user}", [UserController::class, "update"])->name("users.update");
 Route::delete("/users/{user}", [UserController::class, "destroy"])->name("users.destroy");
-Route::get("/empleados", [UserController::class, "empleadosLogin"])->name("empleados.login");
-Route::post("/empleados", [UserController::class, "empleadosLoginBack"])->name("empleados.loginBack");
+Route::get("/operadores", [UserController::class, "empleadosLogin"])->name("empleados.login");
+Route::post("/operadores", [UserController::class, "empleadosLoginBack"])->name("empleados.loginBack");
 
 Route::get("/403", function () {
     return View("403");

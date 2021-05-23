@@ -20,7 +20,7 @@
       <label for="role" class="form-label">Rol</label>
       <select id="role" name="role" type="text" class="form-control @error('role') is-invalid @enderror" value="{{ old('role') }}">
         <option value="admin">Admin</option>
-        <option value="employee" selected>Empleado</option>
+        <option value="employee" selected>Operador</option>
         <option value="moderator">Moderador</option>
       </select>
       @error("role")

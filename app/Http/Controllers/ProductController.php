@@ -13,7 +13,8 @@ class ProductController extends Controller
 {
     public function home()
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee" && Auth::user()->role !== "moderator") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+
             return View("403");
         }
 

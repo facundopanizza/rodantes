@@ -21,7 +21,7 @@
         <td>{{ $supplier->address }}</td>
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
-            @if(Auth::user()->role === "admin")
+            @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
               <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
               <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
                 data-bs-target="#confirmDelete{{ $supplier->id }}">Borrar</button>

@@ -21,7 +21,7 @@
       <label for="role" class="form-label">Rol</label>
       <select id="role" name="role" type="text" class="form-control @error('role') is-invalid @enderror" value="{{ old('role') }}" >
         <option value="admin" {{ $user->role === "admin" ? "selected" : null }}>Admin</option>
-        <option value="employee" {{ $user->role === "employee" ? "selected" : null }}>Empleado</option>
+        <option value="employee" {{ $user->role === "employee" ? "selected" : null }}>Operador</option>
         <option value="moderator" {{ $user->role === "moderator" ? "selected" : null }}>Moderador</option>
       </select>
       @error("role")

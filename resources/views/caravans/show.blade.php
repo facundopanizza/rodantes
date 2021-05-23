@@ -26,9 +26,11 @@
       <div>
         <p>Modelo de Carrozado: <strong>{{ $caravan->model }}</strong></p>
       </div>
-      <div>
-        <p>Gasto Total: @money($caravan->getTotal())</p>
-      </div>
+      @if (Auth::user()->role === "admin")
+        <div>
+          <p>Gasto Total: @money($caravan->getTotal())</p>
+        </div>
+      @endif
     </div>
   </div>
 
@@ -64,9 +66,11 @@
         <td>Producto</td>
         <td>Fecha</td>
         <td>Cantidad</td>
-        <td>Precio</td>
-        <td>IVA</td>
-        <td>Total (Con IVA)</td>
+        @if (Auth::user()->role === "admin")
+          <td>Precio</td>
+          <td>IVA</td>
+          <td>Total (Con IVA)</td>
+        @endif
         <td class="notexport"></td>
       </tr>
     </thead>
@@ -76,15 +80,19 @@
         <td>{{ $product->product->name }}</td>
         <td class="notexport">{{ $product->pivot->updated_at }}</td>
         <td>{{ $product->pivot->quantity }}</td>
-        <td>@money($product->price)</td>
-        <td>{{ $product->iva }}%</td>
-        <td>@money($product->getTotal())</td>
+        @if (Auth::user()->role === "admin")
+          <td>@money($product->price)</td>
+          <td>{{ $product->iva }}%</td>
+          <td>@money($product->getTotal())</td>
+        @endif
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             <a href="{{ route('caravans.add_product_form', [ $caravan, $product ]) }}"
               class="btn btn-sm btn-success mx-1">Agregar</a>
-            <a href="{{ route('caravans.sub_product_form', [ $caravan, $product ]) }}"
-              class="btn btn-sm btn-outline-danger">Quitar</a>
+            @if (Auth::user()->role === "admin")
+              <a href="{{ route('caravans.sub_product_form', [ $caravan, $product ]) }}"
+                class="btn btn-sm btn-outline-danger">Quitar</a>
+            @endif
           </div>
         </td>
       </tr>
@@ -96,24 +104,28 @@
         </form>
       </x-modal-action>
       @endforeach
-      <tr>
-        <td>Total</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>@money($caravan->getTotal())</td>
-        <td class="notexport"></td>
-      </tr>
+      @if (Auth::user()->role === "admin")
+        <tr>
+          <td>Total</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>@money($caravan->getTotal())</td>
+          <td class="notexport"></td>
+        </tr>
+      @endif
     </tbody>
     <tfoot>
       <tr>
         <th>Producto</th>
         <th>Fecha</th>
         <th>Cantidad</th>
-        <th>Precio</th>
-        <th>IVA</th>
-        <th>Total</th>
+        @if (Auth::user()->role === "admin")
+          <th>Precio</th>
+          <th>IVA</th>
+          <th>Total</th>
+        @endif
         <th class="notexport">Botones</th>
       </tr>
     </tfoot>

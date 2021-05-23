@@ -21,7 +21,7 @@
         <td>{{ $user->email }}</td>
         <td>{{ $user->dni }}</td>
         @if($user->role === "employee")
-          <td>Empleado</td>
+          <td>Operador</td>
         @elseif($user->role === "admin")
           <td>Admin</td>
         @elseif($user->role === "moderator")

@@ -55,14 +55,14 @@
                                         <li>
                                             <a class="dropdown-item" href="{{ route("products.create") }}">Crear Producto</a>
                                         </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route("stock") }}">Productos con poco Stock</a>
+                                        </li>
                                     @endif
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route("stock") }}">Productos con poco Stock</a>
-                                    </li>
                                 </ul>
                             </li>
                         @endif
-                        @if(Auth::user()->role === "admin")
+                        @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -77,6 +77,8 @@
                                     </li>
                                 </ul>
                             </li>
+                        @endif
+                        @if(Auth::user()->role === "admin")
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -106,6 +108,11 @@
                                     <a class="dropdown-item" href="{{ route("clients.create") }}">Crear Clientes</a>
                                 </li>
                             </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                {{ Auth::user()->name }}
+                            </a>
                         </li>
                         @endif
                         <form method="POST" action="{{ route('logout') }}">

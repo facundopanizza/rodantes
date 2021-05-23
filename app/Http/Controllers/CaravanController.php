@@ -262,7 +262,7 @@ class CaravanController extends Controller
 
     public function subProductForm(Caravan $caravan, Price $price)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
+        if (Auth::user()->role !== "admin") {
             return View("403");
         }
 
@@ -274,7 +274,7 @@ class CaravanController extends Controller
 
     public function subProduct(Caravan $caravan, Request $request)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
+        if (Auth::user()->role !== "admin") {
             return View("403");
         }
 

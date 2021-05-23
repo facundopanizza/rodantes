@@ -18,7 +18,9 @@
         <td>Descripción</td>
         <td>Proveedor</td>
         <td>Stock</td>
-        <td>Precios</td>
+        @if (Auth::user()->role === "admin")
+          <td>Precios</td>
+        @endif
         <td class="notexport"></td>
       </tr>
     </thead>
@@ -30,7 +32,9 @@
         <td>{{ $product->description }}</td>
         <td>{{ $product->supplier ? $product->supplier->name : "" }}</td>
         <td>{{ $product->getStock() }}</td>
-        <td>@money($product->prices->min("price"))-@money($product->prices->max("price"))</td>
+        @if (Auth::user()->role === "admin")
+          <td>@money($product->prices->min("price"))-@money($product->prices->max("price"))</td>
+        @endif
         <td class="notexport">
           <div class="d-flex flex-nowrap justify-content-between">
             @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator" || Auth::user()->role === "employee")
@@ -65,7 +69,9 @@
         <th>Descripción</th>
         <th>Proveedor</th>
         <th>Stock</th>
-        <th>Precios</th>
+        @if (Auth::user()->role === "admin")
+          <th>Precios</th>
+        @endif
         <th class="notexport">Botones</th>
       </tr>
     </tfoot>
