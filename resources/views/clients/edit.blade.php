@@ -27,8 +27,8 @@
     </div>
 
     <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input required name="email" type="email" class="form-control @error('email') is-invalid @enderror"
+      <label for="email" class="form-label">Email (Opcional)</label>
+      <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"
         placeholder="juan@perez.com" value="{{ old('email') ? old('email') : $client->email }}">
       @error("email")
       <div class="invalid-feedback">{{ $message }}</div>
@@ -36,8 +36,8 @@
     </div>
 
     <div class="mb-3">
-      <label for="dni" class="form-label">DNI</label>
-      <input required name="dni" type="text" class="form-control @error('dni') is-invalid @enderror"
+      <label for="dni" class="form-label">DNI (Opcional)</label>
+      <input name="dni" type="text" class="form-control @error('dni') is-invalid @enderror"
         placeholder="41231452" value="{{ old('dni') ? old('dni') : $client->dni }}">
       @error("dni")
       <div class="invalid-feedback">{{ $message }}</div>
@@ -45,8 +45,8 @@
     </div>
 
     <div class="mb-3">
-      <label for="phone" class="form-label">Teléfono</label>
-      <input required name="phone" type="number" class="form-control @error('phone') is-invalid @enderror"
+      <label for="phone" class="form-label">Teléfono (Opcional)</label>
+      <input name="phone" type="number" class="form-control @error('phone') is-invalid @enderror"
         placeholder="41231452" value="{{ old('phone') ? old('phone') : $client->phone }}">
       @error("phone")
       <div class="invalid-feedback">{{ $message }}</div>
@@ -54,8 +54,8 @@
     </div>
 
     <div class="mb-3">
-      <label for="address" class="form-label">Dirección</label>
-      <textarea required name="address"
+      <label for="address" class="form-label">Dirección (Opcional)</label>
+      <textarea name="address"
         class="form-control @error('address') is-invalid @enderror">{{ old('address') ? old('address') : $client->address }}</textarea>
       @error("address")
       <div class="invalid-feedback">{{ $message }}</div>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="picture" class="form-label">Foto</label>
+      <label for="picture" class="form-label">Foto (Opcional)</label>
       <input name="picture" type="file" class="form-control @error('picture') is-invalid @enderror"
         value="{{ old('picture') ? old('picture') : $client->picture }}">
       @error("picture")

@@ -41,23 +41,19 @@
     </div>
     <thead>
       <tr>
+        <td class="notexport"></td>
         <td>Precio</td>
         <td>Iva</td>
         <td>Stock</td>
         <td>Fecha</td>
-        <td class="notexport"></td>
       </tr>
     </thead>
     <tbody>
       @foreach ($product->prices as $price)
       @if ($price->stock !== 0)
       <tr>
-        <td>@money($price->price)</td>
-        <td>{{ $price->iva }}</td>
-        <td>{{ $price->stock }}</td>
-        <td>{{ $price->created_at }}</td>
         <td>
-          <div class="d-flex flex-nowrap justify-content-between">
+          <div class="d-flex ">
             @if(Auth::user()->role === "admin" || Auth::user()->role === "moderator")
               <a href="{{ route('prices.edit', $price->id) }}" class="btn btn-sm btn-success mx-1">Editar</a>
               <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
@@ -65,6 +61,10 @@
             @endif
           </div>
         </td>
+        <td>@money($price->price)</td>
+        <td>{{ $price->iva }}</td>
+        <td>{{ $price->stock }}</td>
+        <td>{{ \Carbon\Carbon::parse($price->created_at)->format("d/m/Y") }}</td>
       </tr>
       <x-modal-action :key="$price->id" message="Esta seguro que desea borrar este precio?">
         <form method="POST" action="{{ route('prices.destroy', $price->id) }}">
@@ -76,15 +76,6 @@
       @endif
       @endforeach
     </tbody>
-      <tfoot>
-        <tr>
-          <th>Precio</th>
-          <th>Iva</th>
-          <th>Stock</th>
-          <th>Fecha</th>
-          <th class="notexport">Botones</th>
-        </tr>
-      </tfoot>
   </x-table>
 </x-card>
 @endsection

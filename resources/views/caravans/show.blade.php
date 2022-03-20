@@ -63,6 +63,7 @@
   <x-table>
     <thead>
       <tr>
+        <td class="notexport"></td>
         <td>Producto</td>
         <td>Fecha</td>
         <td>Cantidad</td>
@@ -71,30 +72,29 @@
           <td>IVA</td>
           <td>Total (Con IVA)</td>
         @endif
-        <td class="notexport"></td>
       </tr>
     </thead>
     <tbody>
       @foreach ($caravan->products as $product)
       <tr>
+        <td class="notexport">
+          <div class="d-flex ">
+            <a href="{{ route('caravans.add_product_form', [ $caravan, $product ]) }}"
+              class="btn btn-sm btn-success mx-1">Agregar</a>
+            @if (Auth::user()->role === "admin" || Auth::user()->role === "moderator")
+              <a href="{{ route('caravans.sub_product_form', [ $caravan, $product ]) }}"
+                class="btn btn-sm btn-outline-danger">Quitar</a>
+            @endif
+          </div>
+        </td>
         <td>{{ $product->product->name }}</td>
-        <td class="notexport">{{ $product->pivot->updated_at }}</td>
+        <td class="notexport">{{ \Carbon\Carbon::parse($product->pivot->updated_at)->format("d/m/Y") }}</td>
         <td>{{ $product->pivot->quantity }}</td>
         @if (Auth::user()->role === "admin")
           <td>@money($product->price)</td>
           <td>{{ $product->iva }}%</td>
           <td>@money($product->getTotal())</td>
         @endif
-        <td class="notexport">
-          <div class="d-flex flex-nowrap justify-content-between">
-            <a href="{{ route('caravans.add_product_form', [ $caravan, $product ]) }}"
-              class="btn btn-sm btn-success mx-1">Agregar</a>
-            @if (Auth::user()->role === "admin")
-              <a href="{{ route('caravans.sub_product_form', [ $caravan, $product ]) }}"
-                class="btn btn-sm btn-outline-danger">Quitar</a>
-            @endif
-          </div>
-        </td>
       </tr>
       <x-modal-action :key="$caravan->id" message="Esta seguro que desea borrar este caravana?">
         <form method="POST" action="{{ route('caravans.destroy', $caravan->id) }}">
@@ -106,29 +106,16 @@
       @endforeach
       @if (Auth::user()->role === "admin")
         <tr>
+          <td class="notexport"></td>
           <td>Total</td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td>@money($caravan->getTotal())</td>
-          <td class="notexport"></td>
         </tr>
       @endif
     </tbody>
-    <tfoot>
-      <tr>
-        <th>Producto</th>
-        <th>Fecha</th>
-        <th>Cantidad</th>
-        @if (Auth::user()->role === "admin")
-          <th>Precio</th>
-          <th>IVA</th>
-          <th>Total</th>
-        @endif
-        <th class="notexport">Botones</th>
-      </tr>
-    </tfoot>
   </x-table>
 </x-card>
 @endsection

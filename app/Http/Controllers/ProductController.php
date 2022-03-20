@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Caravan;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 
 class ProductController extends Controller
 {
@@ -40,10 +42,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee" && Auth::user()->role !== "moderator") {
-            return View("403");
-        }
-
         $products = Product::with("supplier")->get();
 
         return view("products.index", compact("products"));
@@ -61,8 +59,12 @@ class ProductController extends Controller
         }
 
         $suppliers = Supplier::all();
+        $categories = Category::all();
 
-        return view("products.create", compact('suppliers'));
+        return view("products.create", [
+            "suppliers" => $suppliers,
+            "categories" => $categories
+        ]);
     }
 
     /**
@@ -86,13 +88,18 @@ class ProductController extends Controller
             $validated["supplier_id"] = $request->supplier_id;
         }
 
+        if ($request->category_id && Category::find($request->category_id)) {
+            $validated["category_id"] = $request->category_id;
+        }
+
+
         if (array_key_exists("picture", $validated)) {
             $validated["picture"] = "storage/" . $request->file("picture")->store("products");
         }
         
         $product = Product::create($validated);
 
-        return redirect()->route("products.show", $product->id);
+        return redirect()->route("products.show", $product->id)->with("message", "El producto fue creado correctamente");
     }
 
     /**
@@ -103,10 +110,6 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee" && Auth::user()->role !== "moderator") {
-            return View("403");
-        }
-
         $product->load("prices");
 
         return view("products.show", [ "product" => $product ]);
@@ -165,7 +168,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route("products.index");
+        return redirect()->route("products.index")->with("message", "El producto fue editado correctamente");
     }
 
     /**
@@ -184,7 +187,7 @@ class ProductController extends Controller
             $product->delete();
             Storage::delete($product->picture);
 
-            return redirect()->route("products.index");
+            return redirect()->route("products.index")->with("message", "El producto fue borrado correctamente");
         } catch (\Throwable $th) {
             if ($th->getCode() === "23000") {
                 return redirect()->back()->withErrors([ "constrained" => "El producto no puede ser borrado porque tiene asignado uno o varios precios." ]);
@@ -195,15 +198,18 @@ class ProductController extends Controller
 
     public function addToCaravan(Product $product)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
-            return View("403");
-        }
-
         $caravans = Caravan::with("client")->get();
 
         return view("products.addToCaravan", [
             "caravans" => $caravans,
             "product" => $product
         ]);
+    }
+
+    public function pdf()
+    {
+        $categories = Category::with("products")->orderBy("name")->get();
+
+        return SnappyPdf::loadView("products.pdf", [ "categories" => $categories ])->setOption("viewport-size", "1280x1024")->stream();
     }
 }

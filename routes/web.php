@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CaravanController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductController;
@@ -29,9 +30,13 @@ Route::middleware(["auth"])->group(function () {
     Route::post("/products/{product}/addToCaravan", [CaravanController::class, "addProduct"])->name("products.storeToCaravan");
 
     Route::resource("suppliers", SupplierController::class);
+
+    Route::get("/products/pdf", [ ProductController::class, "pdf" ])->name("products.pdf");
     Route::resource("products", ProductController::class);
+
     Route::resource("clients", ClientController::class);
     Route::resource("caravans", CaravanController::class);
+    Route::resource("categories", CategoryController::class);
 
     Route::get("/api/suppliers", function () {
         return Supplier::all();

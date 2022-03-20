@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string("dni")->unique()->nullable()->default(null);
             $table->string("role")->default("employee");
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->unique()->nullable()->default(null);
+            $table->string('password')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

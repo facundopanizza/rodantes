@@ -5,16 +5,6 @@
 @section("scripts")
 <script>
   $(document).ready(function() {
-    // Setup - add a text input to each footer cell
-    $('tfoot th').each( function () {
-      var title = $(this).text();
-      if (title === "Botones" || title === "Foto" || title === "Total") {
-        $(this).html( `<input id="${title}" type="hidden" placeholder="Buscar ${title}" />` );
-        return;
-      }
-      $(this).html( `<input id="${title}" type="text" placeholder="Buscar ${title}" />` );
-    });
-
     $(document).ready(function () {
       $('#table').DataTable({
         scrollX: true,
@@ -70,7 +60,7 @@
     })
 
     $(document).ready(function () {
-      $("#Código").focus();
+      $("div.dataTables_filter input").focus();
     })
   })
 </script>

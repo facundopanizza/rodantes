@@ -43,6 +43,16 @@
       </select>
     </div>
 
+    <div class="mb-3">
+      <label for="category" class="form-label">Categoría</label>
+      <select name="category_id" class="form-control">
+        <option>Sin Categoría</option>
+        @foreach ($categories as $category)
+        <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+      </select>
+    </div>
+
     <button type="submit" class="btn btn-success">Crear</button>
   </form>
 </x-card>

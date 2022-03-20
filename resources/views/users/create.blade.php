@@ -19,16 +19,16 @@
     <div class="mb-3">
       <label for="role" class="form-label">Rol</label>
       <select id="role" name="role" type="text" class="form-control @error('role') is-invalid @enderror" value="{{ old('role') }}">
-        <option value="admin">Admin</option>
-        <option value="employee" selected>Operador</option>
-        <option value="moderator">Moderador</option>
+        <option value="employee" {{ old("role") === "employee" ? "selected" : "" }}>Operador</option>
+        <option value="admin" {{ old("role") === "admin" ? "selected" : "" }}>Admin</option>
+        <option value="moderator" {{ old("role") === "moderator" ? "selected" : "" }}>Moderador</option>
       </select>
       @error("role")
       <div class="invalid-feedback">{{ $message }}</div>
       @enderror
     </div>
 
-    <div id="dni" class="mb-3">
+    <div id="dni" class="mb-3" style="display: {{ old('dni') ? "block" : "none" }}">
       <label for="dni" class="form-label">DNI</label>
       <input name="dni" type="number" class="form-control @error('dni') is-invalid @enderror"
         placeholder="12345678" value="{{ old('dni')}}">
@@ -37,7 +37,7 @@
       @enderror
     </div>
 
-    <div id="email" class="mb-3" style="display: none">
+    <div id="email" class="mb-3" style="display: {{ old('email') ? "block" : "none" }}">
       <label for="email" class="form-label">Email</label>
       <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"
         placeholder="juan@perez.com" value="{{ old('email')}}">
@@ -46,7 +46,7 @@
       @enderror
     </div>
 
-    <div id="password" class="mb-3" style="display: none">
+    <div id="password" class="mb-3" style="display: {{ old('email') ? "block" : "none" }}">
       <label for="password" class="form-label">Contraseña</label>
       <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
         placeholder="123456" value="{{ old('password')}}">

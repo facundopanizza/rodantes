@@ -47,14 +47,19 @@ class PriceController extends Controller
         $validated = $request->validate([
             "price" => [ "required", "min:0", "numeric"],
             "iva" => [ "min:0", "numeric"],
-            "stock" => [ "min:1", "numeric"]
+            "stock" => [ "min:1", "numeric"],
+            "created_at" => [ "date", "nullable" ]
         ]);
+
+        if (!$validated["created_at"]) {
+            $validated["created_at"] = time();
+        }
 
         $validated["product_id"] = $product_id;
 
         Price::create($validated);
 
-        return redirect()->route("products.show", $product_id);
+        return redirect()->route("products.show", $product_id)->with("message", "El precio fue creado correctamente");
     }
 
     /**
@@ -99,15 +104,21 @@ class PriceController extends Controller
         $validated = $request->validate([
             "price" => [ "required", "min:0", "numeric"],
             "iva" => [ "min:0", "numeric"],
-            "stock" => [ "min:1", "numeric"]
+            "stock" => [ "min:1", "numeric"],
+            "created_at" => [ "date", "nullable" ]
         ]);
+
+        if (!$validated["created_at"]) {
+            $validated["created_at"] = time();
+        }
 
         $price->price = $validated["price"];
         $price->iva = $validated["iva"];
         $price->stock = $validated["stock"];
+        $price->created_at = $validated["created_at"];
         $price->save();
 
-        return redirect()->route("products.show", $price->product->id);
+        return redirect()->route("products.show", $price->product->id)->with("message", "El precio fue editado correctamente");
     }
 
     /**
@@ -126,7 +137,7 @@ class PriceController extends Controller
             $product_id = $price->product->id;
             $price->delete();
 
-            return redirect()->route("products.show", $product_id);
+            return redirect()->route("products.show", $product_id)->with("message", "El precio fue borrado correctamente");
         } catch (\Throwable $th) {
             if ($th->getCode() === "23000") {
                 return redirect()->back()->withErrors([ "constrained" => "El precio no puede ser borrado porque esta asignado a una o varias caravanas." ]);

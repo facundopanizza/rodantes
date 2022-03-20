@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -49,15 +49,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
         $validated = $request->validate([
             "name" => [ "required", "string" ],
             "role" => [ "required", Rule::in([ "admin", "employee", "moderator" ])],
-            "dni" => [ Rule::requiredIf($request->role === "employee") ],
-            "email" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator") ],
+            "dni" => [ Rule::requiredIf($request->role === "employee"), "unique:users" ],
+            "email" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator"), "unique:users" ],
             "password" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator") ],
         ]);
 
@@ -65,7 +65,7 @@ class UserController extends Controller
 
         User::create($validated);
 
-        return redirect()->route("home");
+        return redirect()->route("users.index")->with("message", "El usuario fue creado correctamente");
     }
 
     /**
@@ -87,7 +87,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -103,15 +103,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
         $validated = $request->validate([
             "name" => [ "required", "string" ],
             "role" => [ "required", Rule::in([ "admin", "employee", "moderator" ])],
-            "dni" => [ Rule::requiredIf($request->role === "employee") ],
-            "email" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator") ],
+            "dni" => [ "nullable", Rule::requiredIf($request->role === "employee"), Rule::unique('users')->ignore($user->dni, 'dni') ],
+            "email" => [ "nullable", Rule::requiredIf($request->role === "admin" || $request->role === "moderator"), Rule::unique('users')->ignore($user->email, 'email') ],
             "password" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator") ],
         ]);
 
@@ -131,7 +131,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route("users.index");
+        return redirect()->route("users.index")->with("message", "El usuario fue editado correctamente");
     }
 
     /**
@@ -142,13 +142,13 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
         $user->delete();
 
-        return redirect()->route("users.index");
+        return redirect()->route("users.index")->with("message", "El usuario fue borrado correctamente");
     }
 
     public function empleadosLogin()

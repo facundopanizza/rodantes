@@ -17,7 +17,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -33,7 +33,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -48,18 +48,18 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
         $validated = $request->validate([
             "first_name" => [ "required", "string" ],
             "last_name" => [ "required", "string" ],
-            "email" => [ "required", "string", "email", "unique:clients,email" ],
-            "dni" => [ "required", "string", "unique:clients,dni" ],
-            "address" => [ "required", "string" ],
-            "phone" => [ "required", "string" ],
-            "picture" => [ "image" ],
+            "email" => [ "string", "email", "nullable" ],
+            "dni" => [ "string", "nullable" ],
+            "address" => [ "string", "nullable" ],
+            "phone" => [ "string", "nullable" ],
+            "picture" => [ "image", "nullable" ],
         ]);
 
         if (array_key_exists("picture", $validated)) {
@@ -68,7 +68,7 @@ class ClientController extends Controller
 
         Client::create($validated);
 
-        return redirect()->route("clients.index");
+        return redirect()->route("clients.index")->with("message", "El cliente fue creado correctamente");
     }
 
     /**
@@ -90,7 +90,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -106,18 +106,18 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
         $validated = $request->validate([
             "first_name" => [ "required", "string" ],
             "last_name" => [ "required", "string" ],
-            "email" => [ "required", "string", "email", Rule::unique('clients')->ignore($client->email, 'email') ],
-            "dni" => [ "required", "string", Rule::unique('clients')->ignore($client->dni, 'dni') ],
-            "phone" => [ "required", "string" ],
-            "address" => [ "required", "string" ],
-            "picture" => [ "image" ],
+            "email" => [ "string", "nullable", "email", Rule::unique('clients')->ignore($client->email, 'email') ],
+            "dni" => [ "string", "nullable", Rule::unique('clients')->ignore($client->dni, 'dni') ],
+            "phone" => [ "string", "nullable" ],
+            "address" => [ "string", "nullable" ],
+            "picture" => [ "image", "nullable" ],
         ]);
 
         if (array_key_exists("picture", $validated)) {
@@ -133,7 +133,7 @@ class ClientController extends Controller
         $client->address = $validated["address"];
         $client->save();
 
-        return redirect()->route("clients.index");
+        return redirect()->route("clients.index")->with("message", "El cliente fue editado correctamente");
     }
 
     /**
@@ -144,7 +144,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -152,7 +152,7 @@ class ClientController extends Controller
             Storage::delete($client->picture);
             $client->delete();
 
-            return redirect()->route("clients.index");
+            return redirect()->route("clients.index")->with("message", "El cliente fue borrado correctamente");
         } catch (\Throwable $th) {
             if ($th->getCode() === "23000") {
                 return redirect()->back()->withErrors([ "constrained" => "El cliente no puede ser borrado porque tiene asignado una o varias caravanas." ]);

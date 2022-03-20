@@ -21,10 +21,6 @@ class CaravanController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
-            return View("403");
-        }
-
         $caravans = Caravan::with("client")->get();
 
         return view("caravans.index", compact("caravans"));
@@ -37,7 +33,7 @@ class CaravanController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -54,7 +50,7 @@ class CaravanController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -79,7 +75,7 @@ class CaravanController extends Controller
 
         Caravan::create($validated);
 
-        return redirect()->route("caravans.index");
+        return redirect()->route("caravans.index")->with("message", "La caravana fue creada correctamente");
     }
 
     /**
@@ -90,10 +86,6 @@ class CaravanController extends Controller
      */
     public function show(Caravan $caravan)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
-            return View("403");
-        }
-
         return view("caravans.show", compact("caravan"));
     }
 
@@ -105,7 +97,7 @@ class CaravanController extends Controller
      */
     public function edit(Caravan $caravan)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -126,7 +118,7 @@ class CaravanController extends Controller
      */
     public function update(Request $request, Caravan $caravan)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -157,7 +149,7 @@ class CaravanController extends Controller
 
         $caravan->save();
 
-        return redirect()->route("caravans.show", $caravan->id);
+        return redirect()->route("caravans.show", $caravan->id)->with("message", "La caravana fue editada correctamente");
     }
 
     /**
@@ -168,14 +160,14 @@ class CaravanController extends Controller
      */
     public function destroy(Caravan $caravan)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
         try {
             $caravan->delete();
 
-            return redirect()->route("caravans.index");
+            return redirect()->route("caravans.index")->with("message", "La caravana fue borrada correctamente");
         } catch (\Throwable $th) {
             if ($th->getCode() === "23000") {
                 return redirect()->back()->withErrors([ "constrained" => "La caravana no puede ser borrada porque tiene asignado uno o varios productos." ]);
@@ -186,10 +178,6 @@ class CaravanController extends Controller
 
     public function addProductForm(Caravan $caravan, Price $price)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
-            return View("403");
-        }
-
         return view("caravans.add_product", [ 
             "caravan" => $caravan, 
             "price" => $price 
@@ -226,10 +214,6 @@ class CaravanController extends Controller
 
     public function addProduct(Caravan $caravan, Request $request)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
-            return View("403");
-        }
-
         $validated = $request->validate([
             "term" => [ "required" ],
             "quantity" => [ "required", "min:1" ]
@@ -262,7 +246,7 @@ class CaravanController extends Controller
 
     public function subProductForm(Caravan $caravan, Price $price)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -274,7 +258,7 @@ class CaravanController extends Controller
 
     public function subProduct(Caravan $caravan, Request $request)
     {
-        if (Auth::user()->role !== "admin") {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
@@ -305,10 +289,6 @@ class CaravanController extends Controller
 
     public function results(Caravan $caravan, Request $request)
     {
-        if (Auth::user()->role !== "admin" && Auth::user()->role !== "employee") {
-            return View("403");
-        }
-
         $validated = $request->validate([
             "term" => [ "required" ],
             "quantity" => [ "required", "min:1" ]

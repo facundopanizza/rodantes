@@ -45,6 +45,15 @@
       @enderror
     </div>
 
+    <div class="mb-3">
+      <label for="created_at" class="form-label">Fecha de la compra</label>
+      <input name="created_at" type="date" class="form-control @error('created_at') is-invalid @enderror"
+        value="{{old('created_at') ? old('created_at') : \Carbon\Carbon::parse($price->created_at)->format("Y-m-d")}}">
+      @error("created_at")
+      <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+    </div>
+
     <button class="btn btn-success">Editar</button>
   </form>
 </x-card>

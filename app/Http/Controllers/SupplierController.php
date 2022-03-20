@@ -53,13 +53,13 @@ class SupplierController extends Controller
 
         $validated = $request->validate([
             "name" => ["required", "unique:suppliers"],
-            "phone" => ["required", "string"],
-            "address" => ["required", "string"]
+            "phone" => [ "string", "nullable" ],
+            "address" => [ "string", "nullable" ]
         ]);
 
         Supplier::create($validated);
 
-        return redirect()->route("suppliers.index");
+        return redirect()->route("suppliers.index")->with("message", "El proveedor fue creado correctamente");
     }
 
     /**
@@ -103,8 +103,8 @@ class SupplierController extends Controller
 
         $validated = $request->validate([
             "name" => [ "required", "string", Rule::unique('suppliers')->ignore($supplier->name, 'name') ],
-            "phone" => ["required", "string"],
-            "address" => ["required", "string"]
+            "phone" => [ "string", "nullable" ],
+            "address" => [ "string", "nullable" ]
         ]);
 
         $supplier->name = $validated["name"];
@@ -112,7 +112,7 @@ class SupplierController extends Controller
         $supplier->address = $validated["address"];
         $supplier->save();
 
-        return redirect()->route("suppliers.index");
+        return redirect()->route("suppliers.index")->with("message", "El proveedor fue editado correctamente");
     }
 
     /**
@@ -129,6 +129,6 @@ class SupplierController extends Controller
 
         $supplier->delete();
 
-        return redirect()->route("suppliers.index");
+        return redirect()->route("suppliers.index")->with("message", "El proveedor fue borrado correctamente");
     }
 }

@@ -24,6 +24,10 @@ class Product extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    function category() {
+        return $this->belongsTo(Category::class);
+    }
+
     function prices() {
         return $this->hasMany(Price::class);
     }
