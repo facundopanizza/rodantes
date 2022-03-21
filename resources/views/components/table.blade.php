@@ -9,20 +9,6 @@
       $('#table').DataTable({
         scrollX: true,
         dom: "Blfrtip",
-        initComplete: function () {
-            // Apply the search
-            this.api().columns().every( function () {
-                var that = this;
- 
-                $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                    if ( that.search() !== this.value ) {
-                        that
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-        },
         buttons: [
           { 
             extend: "excel", 
