@@ -35,7 +35,8 @@ return [
     
     'pdf' => [
         'enabled' => true,
-        'binary'  => 'wkhtmltopdf',
+        // 'binary'  => 'wkhtmltopdf',
+        'binary'  => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"',
         'timeout' => false,
         'options' => [],
         'env'     => [],
@@ -43,8 +44,8 @@ return [
     
     'image' => [
         'enabled' => true,
-        'binary'  => 'wkhtmltoimage',
-        // 'binary'  => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe"',
+        // 'binary'  => 'wkhtmltoimage',
+        'binary'  => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe"',
         'timeout' => false,
         'options' => [],
         'env'     => [],
