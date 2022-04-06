@@ -92,10 +92,11 @@ class ProductController extends Controller
             $validated["category_id"] = $request->category_id;
         }
 
-
         if (array_key_exists("picture", $validated)) {
             $validated["picture"] = "storage/" . $request->file("picture")->store("products");
         }
+
+        $validated["name"] = ucfirst($validated["name"]);
         
         $product = Product::create($validated);
 
@@ -128,8 +129,13 @@ class ProductController extends Controller
         }
 
         $suppliers = Supplier::all();
+        $categories = Category::all();
 
-        return view("products.edit", [ "suppliers" => $suppliers, "product" => $product ]);
+        return view("products.edit", [
+            "suppliers" => $suppliers,
+            "product" => $product,
+            "categories" => $categories
+        ]);
     }
 
     /**
@@ -154,16 +160,26 @@ class ProductController extends Controller
             $validated["supplier_id"] = $request->supplier_id;
         }
 
+        if ($request->category_id && Category::find($request->category_id)) {
+            $validated["category_id"] = $request->category_id;
+        }
+
         if (array_key_exists("picture", $validated)) {
             Storage::delete($product->picture);
             $product->picture = "storage/" . $request->file("picture")->store("products");
         }
+
+        $validated["name"] = ucfirst($validated["name"]);
         
         $product->name = $validated["name"];
         $product->description = $request->description;
 
         if (array_key_exists("supplier_id", $validated)) {
             $product->supplier_id = $validated["supplier_id"];
+        }
+
+        if (array_key_exists("category_id", $validated)) {
+            $product->category_id = $validated["category_id"];
         }
 
         $product->save();
@@ -208,8 +224,8 @@ class ProductController extends Controller
 
     public function pdf()
     {
-        $categories = Category::with("products")->orderBy("name")->get();
+        $categories = Category::with("products")->orderBy("name")->get()->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE);
 
-        return SnappyPdf::loadView("products.pdf", [ "categories" => $categories ])->setOption("viewport-size", "1280x1024")->stream();
+        return SnappyPdf::loadView("products.pdf", [ "categories" => $categories ])->setOption("viewport-size", "1280x1024")->inline();
     }
 }

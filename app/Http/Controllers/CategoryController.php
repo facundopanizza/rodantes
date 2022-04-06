@@ -42,6 +42,8 @@ class CategoryController extends Controller
             "name" => [ "required", "string", "unique:categories" ]
         ]);
 
+        $validated["name"] = ucfirst($validated["name"]);
+
         Category::create($validated);
 
         return redirect()->route("categories.index")->with("message", "La categoría fue creada correctamente");
@@ -81,6 +83,8 @@ class CategoryController extends Controller
         $validated = $request->validate([
             "name" => [ "required", "string", Rule::unique('categories')->ignore($category->name, 'name') ]
         ]);
+
+        $validated["name"] = ucfirst($validated["name"]);
 
         $category->name = $validated["name"];
         $category->save();
