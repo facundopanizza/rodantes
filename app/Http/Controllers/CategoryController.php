@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $categories = Category::latest()->get();
 
         return view("categories.index", compact("categories"));
@@ -27,6 +32,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view("categories.create");
     }
 
@@ -38,6 +47,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             "name" => [ "required", "string", "unique:categories" ]
         ]);
@@ -68,6 +81,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view("categories.edit", compact("category"));
     }
 
@@ -80,6 +97,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
+
         $validated = $request->validate([
             "name" => [ "required", "string", Rule::unique('categories')->ignore($category->name, 'name') ]
         ]);
@@ -100,6 +122,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         try {
             $category->delete();
 

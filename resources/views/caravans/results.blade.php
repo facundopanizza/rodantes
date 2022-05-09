@@ -32,6 +32,7 @@
 
               <input type="hidden" name="term" value="{{ $product->id }}">
               <input type="hidden" name="quantity" value="{{ $quantity }}">
+              <input type="hidden" name="employee_id" value="{{ $employee_id }}">
 
               <button type="submit" class="btn btn-sm btn-success mx-2">Agregar</button>
             </form>

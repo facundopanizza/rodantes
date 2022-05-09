@@ -11,7 +11,7 @@
       <input required name="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror"
         placeholder="Juan" value="{{ old('first_name') }}">
       @error("first_name")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -20,7 +20,7 @@
       <input required name="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror"
         placeholder="Perez" value="{{ old('last_name') }}">
       @error("last_name")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -29,7 +29,7 @@
       <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"
         placeholder="juan@perez.com" value="{{ old('email') }}">
       @error("email")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -38,7 +38,7 @@
       <input name="dni" type="text" class="form-control @error('dni') is-invalid @enderror"
         placeholder="41231452" value="{{ old('dni') }}">
       @error("dni")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -47,7 +47,7 @@
       <input name="phone" type="number" class="form-control @error('phone') is-invalid @enderror"
         placeholder="41231452" value="{{ old('phone') }}">
       @error("phone")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -56,7 +56,7 @@
       <textarea name="address"
         class="form-control @error('address') is-invalid @enderror">{{ old('address') }}</textarea>
       @error("address")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -65,7 +65,7 @@
       <input name="picture" type="file" class="form-control @error('picture') is-invalid @enderror"
         value="{{ old('picture') }}">
       @error("picture")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 

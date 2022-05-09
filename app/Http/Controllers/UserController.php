@@ -56,8 +56,8 @@ class UserController extends Controller
         $validated = $request->validate([
             "name" => [ "required", "string" ],
             "role" => [ "required", Rule::in([ "admin", "employee", "moderator" ])],
-            "dni" => [ Rule::requiredIf($request->role === "employee"), "unique:users" ],
-            "email" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator"), "unique:users" ],
+            "dni" => [ "nullable", "sometimes", Rule::requiredIf($request->role === "employee"), "unique:users" ],
+            "email" => [ "nullable", "sometimes", Rule::requiredIf($request->role === "admin" || $request->role === "moderator"), "unique:users" ],
             "password" => [ Rule::requiredIf($request->role === "admin" || $request->role === "moderator") ],
         ]);
 

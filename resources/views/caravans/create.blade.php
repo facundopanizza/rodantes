@@ -12,7 +12,7 @@
       <input required name="vehicle" type="text" class="form-control @error('vehicle') is-invalid @enderror"
         placeholder="Vehículo" value="{{ old('vehicle') }}">
       @error("vehicle")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -21,7 +21,7 @@
       <input required name="type" type="text" class="form-control @error('type') is-invalid @enderror"
         placeholder="Tipo de Carrozado" value="{{ old('type') }}">
       @error("type")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -30,7 +30,7 @@
       <input required name="model" type="text" class="form-control @error('model') is-invalid @enderror"
         placeholder="Modelo de Carrozado" value="{{ old('model') }}">
       @error("model")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -39,7 +39,7 @@
       <input name="picture" type="file" class="form-control @error('picture') is-invalid @enderror"
         value="{{ old('picture') }}">
       @error("picture")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 

@@ -26,6 +26,6 @@ class Caravan extends Model
     }
 
     public function products() {
-        return $this->belongsToMany(Price::class)->withPivot("quantity")->withPivot("quantity")->withPivot("id")->withTimestamps();
+        return $this->belongsToMany(Price::class)->withPivot("quantity")->withPivot("quantity")->withPivot("id")->withPivot("employee_id")->withTimestamps();
     }
 }

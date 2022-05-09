@@ -50,7 +50,7 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('products.index') }}">ver
+                                        <a class="dropdown-item" href="{{ route('products.index') }}">Ver
                                             productos</a>
                                     </li>
                                     <li>
@@ -71,6 +71,24 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
+                                    Empleados
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('employees.index') }}">Ver
+                                            Empleados</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('employees.create') }}">Crear
+                                            Empleado</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     Categorías
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -84,8 +102,6 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif
-                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">

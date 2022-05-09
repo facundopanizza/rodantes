@@ -11,7 +11,7 @@
       <input required name="name" type="text" class="form-control @error('name') is-invalid @enderror"
         placeholder="Categoría" value="{{ old('name')}}">
       @error("name")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
     <button class="btn btn-success">Crear</button>

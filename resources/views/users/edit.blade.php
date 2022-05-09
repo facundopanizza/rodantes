@@ -13,7 +13,7 @@
       <input required name="name" type="text" class="form-control @error('name') is-invalid @enderror"
         placeholder="Juan Perez" value="{{ old('name') ? old('name') : $user->name }}">
       @error("name")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -25,7 +25,7 @@
         <option value="moderator" {{ $user->role === "moderator" ? "selected" : null }}>Moderador</option>
       </select>
       @error("role")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -34,7 +34,7 @@
       <input name="dni" type="number" class="form-control @error('dni') is-invalid @enderror"
         placeholder="12345678" value="{{ old('dni') ? old('dni') : $user->dni }}">
       @error("dni")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -43,7 +43,7 @@
       <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"
         placeholder="juan@perez.com" value="{{ old('email') ? old('email') : $user->email }}">
       @error("email")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -52,7 +52,7 @@
       <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
         placeholder="123456" value="{{ old('password')}}">
       @error("password")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 

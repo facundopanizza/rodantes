@@ -32,7 +32,7 @@ class Product extends Model
         return $this->hasMany(Price::class);
     }
 
-    function assignCaravan($caravan, $quantity) {
+    function assignCaravan($caravan, $quantity, $employee_id) {
         $totalStock = $this->getStock();
 
         if ($quantity > $totalStock) {
@@ -40,8 +40,8 @@ class Product extends Model
         }
 
         foreach($this->prices->sortBy("created_at") as $price) {
-            if($quantity === 0) {
-                break;
+            if($price->stock === 0) {
+                continue;
             }
 
             $toAdd = 0;
@@ -54,13 +54,14 @@ class Product extends Model
             $quantity -= $toAdd;
             $price->stock -= $toAdd;
             $price->save();
-            $priceAlreadyAdded = $caravan->products->where("id", $price->id)->first();
+            $priceAlreadyAdded = $caravan->products->where("id", $price->id)->where("employee_id", $employee_id)->first();
 
             if($priceAlreadyAdded) {
                 $priceAlreadyAdded->pivot->quantity += $toAdd;
+                $priceAlreadyAdded->pivot->employee_id = $employee_id;
                 $priceAlreadyAdded->pivot->save();
             } else {
-                $caravan->products()->attach($price, [ "quantity" => $toAdd ]);
+                $caravan->products()->attach($price, [ "quantity" => $toAdd, "employee_id" => $employee_id ]);
             }
         }
 

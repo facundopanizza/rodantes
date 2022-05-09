@@ -19,7 +19,19 @@
         @endforeach
       </select>
       @error("caravan_id")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
+      @enderror
+    </div>
+
+    <div class="mb-3">
+      <label for="employee_id" class="form-label">Empleado</label>
+      <select class="form-control" name="employee_id">
+        @foreach ($employees as $employee)
+            <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+        @endforeach
+      </select>
+      @error("employee_id")
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 

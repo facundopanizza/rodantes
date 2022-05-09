@@ -1,16 +1,16 @@
 @extends('layouts.layout')
 
-@section('title', 'Editar Categoría')
+@section('title', 'Editar Empleado')
 
 @section('main')
-<x-card header="Editar Categoría">
-  <form method="POST" action="{{ route('categories.update', $category->id) }}">
+<x-card header="Editar Empleado">
+  <form method="POST" action="{{ route('employees.update', $employee->id) }}">
     @csrf
     @method("patch")
     <div class="mb-3">
       <label for="name" class="form-label">Nombre</label>
       <input required name="name" type="text" class="form-control @error('name') is-invalid @enderror"
-        placeholder="Categoría" value="{{ old('name') ? old('name') : $category->name }}">
+        placeholder="Juan Perez" value="{{ old('name') ? old('name') : $employee->name }}">
       @error("name")
       <div class="text-danger">{{ $message }}</div>
       @enderror

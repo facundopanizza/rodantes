@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CaravanController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
@@ -37,6 +38,7 @@ Route::middleware(["auth"])->group(function () {
     Route::resource("clients", ClientController::class);
     Route::resource("caravans", CaravanController::class);
     Route::resource("categories", CategoryController::class);
+    Route::resource("employees", EmployeeController::class);
 
     Route::get("/api/suppliers", function () {
         return Supplier::all();

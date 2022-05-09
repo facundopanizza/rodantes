@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; 
+namespace App\Http\Controllers;
 use App\Models\Caravan;
 use App\Models\Client;
 use App\Models\Price;
@@ -54,7 +54,7 @@ class CaravanController extends Controller
             return View("403");
         }
 
-        $validated = $request->validate([ 
+        $validated = $request->validate([
             "vehicle" => [ "required", "string" ],
             "type" => [ "required", "string" ],
             "model" => [ "required", "string" ],
@@ -178,9 +178,9 @@ class CaravanController extends Controller
 
     public function addProductForm(Caravan $caravan, Price $price)
     {
-        return view("caravans.add_product", [ 
-            "caravan" => $caravan, 
-            "price" => $price 
+        return view("caravans.add_product", [
+            "caravan" => $caravan,
+            "price" => $price
         ]);
     }
 
@@ -216,7 +216,8 @@ class CaravanController extends Controller
     {
         $validated = $request->validate([
             "term" => [ "required" ],
-            "quantity" => [ "required", "min:1" ]
+            "quantity" => [ "required", "min:1" ],
+            "employee_id" => [ "required", "exists:employees,id" ]
         ]);
 
         if (!$caravan->exists) {
@@ -234,25 +235,27 @@ class CaravanController extends Controller
                 "caravan" => $caravan,
                 "term" => $validated["term"],
                 "quantity" => $validated["quantity"],
+                "employee_id" => $validated["employee_id"]
             ]);
         }
 
-        if (!$product->assignCaravan($caravan, $validated["quantity"])) {
+        if (!$product->assignCaravan($caravan, $validated["quantity"], $validated["employee_id"])) {
             return back()->withErrors([ "quantity" => "Este producto no tiene suficiente stock." ])->withInput();
         }
 
         return redirect()->route("caravans.show", $caravan->id);
     }
 
-    public function subProductForm(Caravan $caravan, Price $price)
+    public function subProductForm(Caravan $caravan, Price $price, Request $request)
     {
         if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
             return View("403");
         }
 
-        return view("caravans.sub_product", [ 
-            "caravan" => $caravan, 
-            "price" => $price 
+        return view("caravans.sub_product", [
+            "caravan" => $caravan,
+            "price" => $price,
+            "employee_id" => $request->query("employee_id")
         ]);
     }
 
@@ -264,11 +267,12 @@ class CaravanController extends Controller
 
         $validated = $request->validate([
             "price_id" => [ "required", "exists:prices,id" ],
-            "quantity" => [ "required", "min:1" ]
+            "quantity" => [ "required", "min:1" ],
+            "employee_id" => [ "required", "exists:employees,id" ]
         ]);
 
         $price = Price::find($validated["price_id"]);
-        $pivot = $caravan->products->where("id", $price->id)->first()->pivot;
+        $pivot = $caravan->products->where("id", $price->id)->first()->pivot->where("employee_id", $validated["employee_id"])->where("price_id", $price->id)->first();
         $pricesAssigned = $pivot->quantity;
 
         if (($pricesAssigned - $request["quantity"]) < 0) {
@@ -281,7 +285,7 @@ class CaravanController extends Controller
         $price->save();
 
         if ($pivot->quantity === 0) {
-            $caravan->products()->detach($price->id);
+            $caravan->products()->wherePivot('price_id', $price->id)->wherePivot('employee_id', $validated["employee_id"])->detach($price->id);
         }
 
         return redirect()->route("caravans.show", $caravan->id);
@@ -291,7 +295,8 @@ class CaravanController extends Controller
     {
         $validated = $request->validate([
             "term" => [ "required" ],
-            "quantity" => [ "required", "min:1" ]
+            "quantity" => [ "required", "min:1" ],
+            "employee_id" => [ "required", "exists:employees,id" ]
         ]);
 
         $products = Product::orWhere("name", "LIKE", "%" . $validated["term"] . "%")
@@ -306,7 +311,8 @@ class CaravanController extends Controller
             "caravan" => $caravan,
             "term" => $validated["term"],
             "quantity" => $validated["quantity"],
-            "products" => $products
+            "products" => $products,
+            "employee_id" => $validated["employee_id"]
         ]);
     }
 }

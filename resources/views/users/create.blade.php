@@ -12,19 +12,20 @@
       <input required name="name" type="text" class="form-control @error('name') is-invalid @enderror"
         placeholder="Juan Perez" value="{{ old('name')}}">
       @error("name")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
     <div class="mb-3">
       <label for="role" class="form-label">Rol</label>
-      <select id="role" name="role" type="text" class="form-control @error('role') is-invalid @enderror" value="{{ old('role') }}">
+      <select required id="role" name="role" type="text" class="form-control @error('role') is-invalid @enderror" value="{{ old('role') }}">
+        <option value="">Selecciona un rol</option>
         <option value="employee" {{ old("role") === "employee" ? "selected" : "" }}>Operador</option>
         <option value="admin" {{ old("role") === "admin" ? "selected" : "" }}>Admin</option>
         <option value="moderator" {{ old("role") === "moderator" ? "selected" : "" }}>Moderador</option>
       </select>
       @error("role")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -33,7 +34,7 @@
       <input name="dni" type="number" class="form-control @error('dni') is-invalid @enderror"
         placeholder="12345678" value="{{ old('dni')}}">
       @error("dni")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -42,7 +43,7 @@
       <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"
         placeholder="juan@perez.com" value="{{ old('email')}}">
       @error("email")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -51,7 +52,7 @@
       <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
         placeholder="123456" value="{{ old('password')}}">
       @error("password")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 

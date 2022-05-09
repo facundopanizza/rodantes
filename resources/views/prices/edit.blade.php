@@ -13,7 +13,7 @@
       <input required id="price" name="price" type="text" class="form-control @error('price') is-invalid @enderror"
         placeholder="100" value="{{ old('price') ? old('price') : $price->price}}" min="0">
       @error("price")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -22,7 +22,7 @@
       <input required id="iva" name="iva" type="text" class="form-control @error('iva') is-invalid @enderror"
         placeholder="21" value="{{ old('iva') ? old('iva') : $price->iva }}" min="0">
       @error("iva")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -41,7 +41,7 @@
       <input name="stock" type="number" class="form-control @error('stock') is-invalid @enderror" placeholder="2"
         value="{{old('stock') ? old('stock') : $price->stock}}" min="0">
       @error("stock")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -50,7 +50,7 @@
       <input name="created_at" type="date" class="form-control @error('created_at') is-invalid @enderror"
         value="{{old('created_at') ? old('created_at') : \Carbon\Carbon::parse($price->created_at)->format("Y-m-d")}}">
       @error("created_at")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 

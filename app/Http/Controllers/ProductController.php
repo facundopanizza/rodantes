@@ -6,6 +6,7 @@ use App\Models\Caravan;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,6 @@ class ProductController extends Controller
     public function home()
     {
         if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
-
             return View("403");
         }
 
@@ -97,7 +97,7 @@ class ProductController extends Controller
         }
 
         $validated["name"] = ucfirst($validated["name"]);
-        
+
         $product = Product::create($validated);
 
         return redirect()->route("products.show", $product->id)->with("message", "El producto fue creado correctamente");
@@ -170,7 +170,7 @@ class ProductController extends Controller
         }
 
         $validated["name"] = ucfirst($validated["name"]);
-        
+
         $product->name = $validated["name"];
         $product->description = $request->description;
 
@@ -215,10 +215,12 @@ class ProductController extends Controller
     public function addToCaravan(Product $product)
     {
         $caravans = Caravan::with("client")->get();
+        $employees = Employee::all();
 
         return view("products.addToCaravan", [
             "caravans" => $caravans,
-            "product" => $product
+            "product" => $product,
+            "employees" => $employees
         ]);
     }
 

@@ -13,7 +13,7 @@
       <input required name="name" type="text" class="form-control @error('name') is-invalid @enderror"
         placeholder="Ruedas" value="{{ old('name') ? old('name') : $product->name }}">
       @error("name")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -22,7 +22,7 @@
       <textarea name="description" type="text" class="form-control @error('description') is-invalid @enderror"
         placeholder="Ruedas">{{ old("description") ? old("description") : $product->description }}</textarea>
       @error("description")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
@@ -30,7 +30,7 @@
       <label for="picture" class="form-label">Foto (Opcional)</label>
       <input name="picture" type="file" class="form-control @error('picture') is-invalid @enderror" />
       @error("picture")
-      <div class="invalid-feedback">{{ $message }}</div>
+      <div class="text-danger">{{ $message }}</div>
       @enderror
     </div>
 
