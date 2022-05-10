@@ -14,7 +14,7 @@ class AddEmployeeToCaravanPriceTable extends Migration
     public function up()
     {
         Schema::table('caravan_price', function (Blueprint $table) {
-            $table->foreignId("employee_id")->constrained()->nullable()->default(null);
+            $table->foreignId("employee_id")->nullable()->constrained();
         });
     }
 
