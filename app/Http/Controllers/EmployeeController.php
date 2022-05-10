@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
@@ -14,6 +15,10 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view('employees.index', [
             'employees' => Employee::all(),
         ]);
@@ -26,6 +31,10 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view('employees.create');
     }
 
@@ -37,6 +46,10 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
@@ -65,6 +78,10 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         return view('employees.edit', [
             'employee' => $employee,
         ]);
@@ -79,6 +96,10 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
@@ -96,6 +117,11 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
+        if (Auth::user()->role !== "admin" && Auth::user()->role !== "moderator") {
+            return View("403");
+        }
+
+
         $employee->delete();
 
         return redirect()->route('employees.index');

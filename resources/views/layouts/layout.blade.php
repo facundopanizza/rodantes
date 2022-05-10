@@ -68,6 +68,8 @@
                                     @endif
                                 </ul>
                             </li>
+                        @endif
+                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -84,8 +86,6 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif
-                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
