@@ -20,7 +20,7 @@ class ProductController extends Controller
             return View("403");
         }
 
-        $products = Product::all();
+        $products = Product::with("suppliers")->with("prices")->get();
 
         $products = $products->filter(function ($product) {
             $notifyWhenStockIsEqualOrLessTo = 5;
@@ -42,7 +42,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with("supplier")->get();
+        $products = Product::with("supplier")->with("prices")->get();
 
         return view("products.index", compact("products"));
     }
