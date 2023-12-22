@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/DataTables/datatables.min.css" />
-    <link href={{ asset("css/bootstrap.min.css") }} rel="stylesheet" />
+    <link href={{ asset('css/bootstrap.min.css') }} rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
 </head>
 
@@ -16,16 +17,16 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('home') }}">Caravana Stock</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'employee' || Auth::user()->role === "moderator")
+                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'employee' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Caravanas
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -33,7 +34,7 @@
                                         <a class="dropdown-item" href="{{ route('caravans.index') }}">Ver
                                             Caravanas</a>
                                     </li>
-                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === "moderator")
+                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                                         <li>
                                             <a class="dropdown-item" href="{{ route('caravans.create') }}">Crear
                                                 Caravanas</a>
@@ -45,7 +46,7 @@
                         @if (Auth::user()->role === 'admin' || Auth::user()->role === 'employee' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Productos
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -72,7 +73,7 @@
                         @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Empleados
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -88,7 +89,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Categorías
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -104,7 +105,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Proveedores
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -119,10 +120,10 @@
                                 </ul>
                             </li>
                         @endif
-                        @if (Auth::user()->role === 'admin' || Auth::user()->role === "moderator")
+                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Usuarios
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -135,10 +136,10 @@
                                 </ul>
                             </li>
                         @endif
-                        @if (Auth::user()->role === 'admin' || Auth::user()->role === "moderator")
+                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'moderator')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                   data-bs-toggle="dropdown" aria-expanded="false">
                                     Clientes
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -173,9 +174,9 @@
     </header>
 
     <div class="container my-4">
-        @if(Session::has("message"))
+        @if (Session::has('message'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ Session::get("message") }}
+                {{ Session::get('message') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -191,10 +192,9 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
-</script>
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/jquery.js"></script>
 <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
-@yield("scripts")
+@yield('scripts')
 
 </html>

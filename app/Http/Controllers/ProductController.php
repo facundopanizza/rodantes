@@ -20,7 +20,7 @@ class ProductController extends Controller
             return View("403");
         }
 
-        $products = Product::with("suppliers")->with("prices")->get();
+        $products = Product::with("supplier")->with("prices")->get();
 
         $products = $products->filter(function ($product) {
             $notifyWhenStockIsEqualOrLessTo = 5;
@@ -42,9 +42,27 @@ class ProductController extends Controller
      */
     public function index()
     {
+        return view("products.index");
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
         $products = Product::with("supplier")->with("prices")->get();
 
-        return view("products.index", compact("products"));
+        $products->each(function ($product) {
+            $product->stock = $product->getStock();
+            $product->price = '$' . number_format($product->prices->max('price'), 2, ',', '.')  . '-$' . number_format($product->prices->min('price'), 2, ',', '.');
+            $product->userRole = Auth::user()->role;
+
+            return $product;
+        });
+
+        return $products;
     }
 
     /**

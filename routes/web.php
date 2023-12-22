@@ -33,6 +33,7 @@ Route::middleware(["auth"])->group(function () {
     Route::resource("suppliers", SupplierController::class);
 
     Route::get("/products/pdf", [ ProductController::class, "pdf" ])->name("products.pdf");
+    Route::get("/products/search", [ ProductController::class, "search" ])->name("products.search");
     Route::resource("products", ProductController::class);
 
     Route::resource("clients", ClientController::class);
