@@ -47,7 +47,7 @@ class PriceController extends Controller
         $validated = $request->validate([
             "price" => [ "required", "min:0", "numeric"],
             "iva" => [ "min:0", "numeric"],
-            "stock" => [ "min:1", "numeric"],
+            "stock" => [ "min:0", "numeric"],
             "created_at" => [ "date", "nullable" ]
         ]);
 
@@ -104,7 +104,7 @@ class PriceController extends Controller
         $validated = $request->validate([
             "price" => [ "required", "min:0", "numeric"],
             "iva" => [ "min:0", "numeric"],
-            "stock" => [ "min:1", "numeric"],
+            "stock" => [ "min:0", "numeric"],
             "created_at" => [ "date", "nullable" ]
         ]);
 

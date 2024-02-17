@@ -218,6 +218,7 @@ class ProductController extends Controller
         }
 
         try {
+            $product->prices()->delete();
             $product->delete();
             Storage::delete($product->picture);
 
